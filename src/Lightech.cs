@@ -10,9 +10,9 @@ using N = LedCSharp.keyboardNames;
 public static class Lightech {
 	private static readonly double PERFECT_FPS = 300;
 	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
-	private static readonly double FRAME_RADIUS = 40 / PERFECT_FPS;
+	private static readonly double FRAME_RADIUS = 80 / PERFECT_FPS;
 
-	private static readonly double FADE_DISTANCE = 1.25;
+	private static readonly double FADE_DISTANCE = 1.2;
 	private static readonly double INTENSITY_SNAP = 0.1;
 
 	private static readonly LocatedKey[] LOCATED_KEYS = new LocatedKey[] {
