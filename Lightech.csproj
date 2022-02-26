@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+    <!-- <OutputType>winexe</OutputType> -->
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+
+
+    <PublishSingleFile>true</PublishSingleFile>
+
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <!-- <SelfContained>true</SelfContained> -->
+
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="H.Hooks" Version="1.4.18" />
+  </ItemGroup>
+
+</Project>
