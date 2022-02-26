@@ -13,33 +13,33 @@ public static class ColourUtilities {
 	}
 
 	public static Color alphaCompositeOver(Color front, Color back) {
-		double intervalFrontAlpha = front.A / 255d;
-		double intervalBackAlpha = back.A / 255d;
+		double frontAlphaInterval = front.A / 255d;
+		double backAlphaInterval = back.A / 255d;
 
-		double intervalFinalAlpha = intervalFrontAlpha + (intervalBackAlpha * (1 - intervalFrontAlpha));
+		double finalAlphaInterval = frontAlphaInterval + (backAlphaInterval * (1 - frontAlphaInterval));
 		double finalRed = alphaCompositeOverComponent(
 			front.R,
 			back.R,
 			front.A,
 			back.A,
-			intervalFinalAlpha
+			finalAlphaInterval
 		);
 		double finalGreen = alphaCompositeOverComponent(
 			front.G,
 			back.G,
 			front.A,
 			back.A,
-			intervalFinalAlpha
+			finalAlphaInterval
 		);
 		double finalBlue = alphaCompositeOverComponent(
 			front.B,
 			back.B,
 			front.A,
 			back.A,
-			intervalFinalAlpha
+			finalAlphaInterval
 		);
 
-		int finalAlpha = Convert.ToInt32(intervalFinalAlpha * 255);
+		int finalAlpha = Convert.ToInt32(finalAlphaInterval * 255);
 
 		return Color.FromArgb(
 			finalAlpha,
@@ -53,15 +53,17 @@ public static class ColourUtilities {
 		int backColour,
 		int frontAlpha,
 		int backAlpha,
-		double intervalFinalAlpha
+		double finalAlphaInterval
 	) {
-		double intervalFrontAlpha = frontAlpha / 255d;
-		double intervalBackAlpha = backAlpha / 255d;
+		double frontAlphaInterval = frontAlpha / 255d;
+		double backAlphaInterval = backAlpha / 255d;
 
-		return ((frontColour * intervalFrontAlpha) + (backColour * intervalBackAlpha * (1 - intervalFrontAlpha))) / intervalFinalAlpha;
+		return ((frontColour * frontAlphaInterval) + (backColour * backAlphaInterval * (1 - frontAlphaInterval))) / finalAlphaInterval;
 	}
 
-	public static int toPercentage(int component) {
-		return Convert.ToInt32((component / 255d) * 100);
+	public static int toAlphaPercentage(int component, int alpha) {
+		double componentPercentage = (component / 255d) * 100;
+		double alphaInterval = alpha / 255d;
+		return Convert.ToInt32(componentPercentage * alphaInterval);
 	}
 }

@@ -13,7 +13,7 @@ public static class Lightech {
 	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
 	private static readonly double FRAME_RADIUS = 40 / PERFECT_FPS;
 
-	private static readonly double FADE_DISTANCE = 1.5;
+	private static readonly double FADE_DISTANCE = 1.25;
 	private static readonly double INTENSITY_SNAP = 0.1;
 
 	private static readonly LocatedKey[] LOCATED_KEYS = new LocatedKey[] {
@@ -114,8 +114,7 @@ public static class Lightech {
 	}
 
 	private static void animate() {
-		//NOTE temp
-		G.LogiLedSetLighting(100, 100, 100);
+		G.LogiLedSetLighting(0, 100, 0);
 
 		TimerCallback animationCallback = (object? _state) => {
 			while (incomingRipples.Count > 0) {
@@ -126,7 +125,7 @@ public static class Lightech {
 
 			foreach (LocatedKey locatedKey in LOCATED_KEYS) {
 				Color changingColour = Color.FromArgb(
-					200,
+					170,
 					255,
 					255,
 					255
@@ -155,9 +154,9 @@ public static class Lightech {
 
 				G.LogiLedSetLightingForKeyWithKeyName(
 					locatedKey.lightKey,
-					ColourUtilities.toPercentage(changingColour.R),
-					ColourUtilities.toPercentage(changingColour.G),
-					ColourUtilities.toPercentage(changingColour.B)
+					ColourUtilities.toAlphaPercentage(changingColour.R, changingColour.A),
+					ColourUtilities.toAlphaPercentage(changingColour.G, changingColour.A),
+					ColourUtilities.toAlphaPercentage(changingColour.B, changingColour.A)
 				);
 			}
 
@@ -168,7 +167,6 @@ public static class Lightech {
 				if (ripple.radius > 50) volatileRipples.RemoveAt(i);
 			}
 		};
-
 		Timer timer = new Timer(
 			animationCallback,
 			null,
