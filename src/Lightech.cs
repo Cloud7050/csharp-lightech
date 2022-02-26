@@ -29,7 +29,9 @@ public static class Lightech {
 		new LocatedKey(new Vector2(3.75f, 2), Key.D0, N.ZERO),
 		new LocatedKey(new Vector2(4.75f, 2), Key.OemMinus, N.MINUS),
 		new LocatedKey(new Vector2(5.75f, 2), Key.OemPlus, N.EQUALS),
+		new LocatedKey(new Vector2(7.25f, 2), Key.Back, N.BACKSPACE),
 
+		new LocatedKey(new Vector2(-6, 1), Key.Tab, N.TAB),
 		new LocatedKey(new Vector2(-4.75f, 1), Key.Q, N.Q),
 		new LocatedKey(new Vector2(-3.75f, 1), Key.W, N.W),
 		new LocatedKey(new Vector2(-2.75f, 1), Key.E, N.E),
@@ -42,7 +44,9 @@ public static class Lightech {
 		new LocatedKey(new Vector2(4.25f, 1), Key.P, N.P),
 		new LocatedKey(new Vector2(5.25f, 1), Key.OemOpenBrackets, N.OPEN_BRACKET),
 		new LocatedKey(new Vector2(6.25f, 1), Key.OemCloseBrackets, N.CLOSE_BRACKET),
+		new LocatedKey(new Vector2(7.5f, 1), Key.OemPipe, N.BACKSLASH),
 
+		new LocatedKey(new Vector2(-6, 0), Key.Escape, N.CAPS_LOCK),
 		new LocatedKey(new Vector2(-4.5f, 0), Key.A, N.A),
 		new LocatedKey(new Vector2(-3.5f, 0), Key.S, N.S),
 		new LocatedKey(new Vector2(-2.5f, 0), Key.D, N.D),
@@ -54,7 +58,9 @@ public static class Lightech {
 		new LocatedKey(new Vector2(3.5f, 0), Key.L, N.L),
 		new LocatedKey(new Vector2(4.5f, 0), Key.OemSemicolon, N.SEMICOLON),
 		new LocatedKey(new Vector2(5.5f, 0), Key.OemQuotes, N.APOSTROPHE),
+		new LocatedKey(new Vector2(7.125f, 0), Key.Enter, N.ENTER),
 
+		new LocatedKey(new Vector2(-5.625f, -1), Key.LeftShift, N.LEFT_SHIFT),
 		new LocatedKey(new Vector2(-4, -1), Key.Z, N.Z),
 		new LocatedKey(new Vector2(-3, -1), Key.X, N.X),
 		new LocatedKey(new Vector2(-2, -1), Key.C, N.C),
@@ -64,7 +70,17 @@ public static class Lightech {
 		new LocatedKey(new Vector2(2, -1), Key.M, N.M),
 		new LocatedKey(new Vector2(3, -1), Key.OemComma, N.COMMA),
 		new LocatedKey(new Vector2(4, -1), Key.OemPeriod, N.PERIOD),
-		new LocatedKey(new Vector2(5, -1), Key.OemQuestion, N.FORWARD_SLASH)
+		new LocatedKey(new Vector2(5, -1), Key.OemQuestion, N.FORWARD_SLASH),
+		new LocatedKey(new Vector2(6.875f, -1), Key.RightShift, N.RIGHT_SHIFT),
+
+		new LocatedKey(new Vector2(-6, -2), Key.LeftControl, N.LEFT_CONTROL),
+		new LocatedKey(new Vector2(-4.625f, -2), Key.LeftWindows, N.LEFT_WINDOWS),
+		new LocatedKey(new Vector2(-3.375f, -2), Key.LeftAlt, N.LEFT_ALT),
+		new LocatedKey(new Vector2(0.125f, -2), Key.Space, N.SPACE),
+		new LocatedKey(new Vector2(3.625f, -2), Key.RightAlt, N.RIGHT_ALT),
+		new LocatedKey(new Vector2(4.875f, -2), Key.RightWindows, N.RIGHT_WINDOWS),
+		new LocatedKey(new Vector2(6.125f, -2), Key.Apps, N.APPLICATION_SELECT),
+		new LocatedKey(new Vector2(7.5f, -2), Key.RightControl, N.RIGHT_CONTROL)
 	};
 
 	private static readonly List<Key> downKeys = new List<Key>();
