@@ -4,6 +4,7 @@
 
 public static class ColourStream {
 	private static readonly Color[] COLOURS = new Color[] {
+		Color.FromArgb(255, 255, 255), // White
 		Color.FromArgb(85, 255, 85), // Lime
 		Color.FromArgb(85, 255, 255), // Aqua
 		Color.FromArgb(255, 255, 85), // Yellow

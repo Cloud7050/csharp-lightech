@@ -172,7 +172,7 @@ public static class Lightech {
 
 		foreach (LocatedKey locatedKey in LOCATED_KEYS) {
 			Color changingColour = Color.FromArgb(
-				170,
+				127,
 				255,
 				255,
 				255
@@ -211,7 +211,9 @@ public static class Lightech {
 			Ripple ripple = volatileRipples[i];
 
 			ripple.radius += FRAME_RADIUS;
-			if (ripple.radius > 50) volatileRipples.RemoveAt(i);
+
+			// 24.5 width, 6.5 height
+			if (ripple.radius > 30) volatileRipples.RemoveAt(i);
 		}
 	}
 }
