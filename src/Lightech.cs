@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
 using H.Hooks;
 
@@ -68,6 +67,8 @@ public static class Lightech {
 		new LocatedKey(new Vector2(5, -1), Key.OemQuestion, N.FORWARD_SLASH)
 	};
 
+	private static readonly List<Key> downKeys = new List<Key>();
+
 	private static readonly List<Ripple> incomingRipples = new List<Ripple>();
 	private static readonly List<Ripple> volatileRipples = new List<Ripple>();
 
@@ -86,29 +87,52 @@ public static class Lightech {
 	private static void register() {
 		LowLevelKeyboardHook hook = new LowLevelKeyboardHook();
 
-		EventHandler<KeyboardEventArgs> upLogger = (object? sender, KeyboardEventArgs data) => {
-			Console.WriteLine($"{nameof(hook.Up)}: {data}");
-		};
 		EventHandler<KeyboardEventArgs> downLogger = (object? sender, KeyboardEventArgs data) => {
-			Console.WriteLine($"{nameof(hook.Down)}: {data}");
+			Console.WriteLine($"v {data}");
 		};
-		hook.Up += upLogger;
+		EventHandler<KeyboardEventArgs> upLogger = (object? sender, KeyboardEventArgs data) => {
+			Console.WriteLine($"^ {data}");
+		};
 		hook.Down += downLogger;
+		hook.Up += upLogger;
 
 		EventHandler<KeyboardEventArgs> downRippler = (object? sender, KeyboardEventArgs data) => {
-			foreach (LocatedKey locatedKey in LOCATED_KEYS) {
-				if (!data.Keys.Values.Contains(locatedKey.hookKey)) continue;
+			foreach (Key hookKey in data.Keys.Values) {
+				foreach (LocatedKey locatedKey in LOCATED_KEYS) {
+					if (hookKey != locatedKey.hookKey) continue;
 
-				incomingRipples.Add(
-					new Ripple(
-						locatedKey.location,
-						ColourStream.nextColour()
-					)
-				);
-				return;
+					if (downKeys.Contains(hookKey)) continue;
+
+					incomingRipples.Add(
+						new Ripple(
+							locatedKey.location,
+							ColourStream.nextColour()
+						)
+					);
+					return;
+				}
 			}
 		};
 		hook.Down += downRippler;
+
+		EventHandler<KeyboardEventArgs> downNonce = (object? sender, KeyboardEventArgs data) => {
+			foreach (Key key in data.Keys.Values) {
+				if (downKeys.Contains(key)) continue;
+
+				downKeys.Add(key);
+				Console.WriteLine($"ADD {key}");
+			}
+		};
+		EventHandler<KeyboardEventArgs> upNonce = (object? sender, KeyboardEventArgs data) => {
+			foreach (Key key in data.Keys.Values) {
+				while (downKeys.Contains(key)) {
+					downKeys.Remove(key);
+					Console.WriteLine($"REM {key}");
+				}
+			}
+		};
+		hook.Down += downNonce;
+		hook.Up += upNonce;
 
 		hook.Start();
 	}
@@ -116,62 +140,62 @@ public static class Lightech {
 	private static void animate() {
 		G.LogiLedSetLighting(0, 100, 0);
 
-		TimerCallback animationCallback = (object? _state) => {
-			while (incomingRipples.Count > 0) {
-				Ripple incomingRipple = incomingRipples[0];
-				incomingRipples.RemoveAt(0);
-				volatileRipples.Add(incomingRipple);
-			}
-
-			foreach (LocatedKey locatedKey in LOCATED_KEYS) {
-				Color changingColour = Color.FromArgb(
-					170,
-					255,
-					255,
-					255
-				); // Faded white
-				foreach (Ripple ripple in volatileRipples) {
-					double distance = ripple.distanceToCircumference(locatedKey.location);
-
-					double intensityFactor = FADE_DISTANCE - distance;
-					if (intensityFactor <= 0) continue;
-
-					double intensityInterval = intensityFactor / FADE_DISTANCE;
-					if (intensityInterval <= INTENSITY_SNAP) intensityInterval = 1;
-					else intensityInterval = (intensityInterval - INTENSITY_SNAP) / (1 - INTENSITY_SNAP);
-
-					double alpha = intensityInterval * 255;
-					Color frontColour = ColourUtilities.overwriteAlpha(
-						ripple.colour,
-						alpha
-					);
-
-					changingColour = ColourUtilities.alphaCompositeOver(
-						frontColour,
-						changingColour
-					);
-				}
-
-				G.LogiLedSetLightingForKeyWithKeyName(
-					locatedKey.lightKey,
-					ColourUtilities.toAlphaPercentage(changingColour.R, changingColour.A),
-					ColourUtilities.toAlphaPercentage(changingColour.G, changingColour.A),
-					ColourUtilities.toAlphaPercentage(changingColour.B, changingColour.A)
-				);
-			}
-
-			for (int i = volatileRipples.Count - 1; i >= 0; i--) {
-				Ripple ripple = volatileRipples[i];
-
-				ripple.radius += FRAME_RADIUS;
-				if (ripple.radius > 50) volatileRipples.RemoveAt(i);
-			}
-		};
 		Timer timer = new Timer(
-			animationCallback,
+			onFrame,
 			null,
 			TimeSpan.Zero,
 			FRAME_SLEEP
 		);
+	}
+	private static void onFrame(object? _state) {
+		while (incomingRipples.Count > 0) {
+			Ripple incomingRipple = incomingRipples[0];
+			incomingRipples.RemoveAt(0);
+			volatileRipples.Add(incomingRipple);
+		}
+
+		foreach (LocatedKey locatedKey in LOCATED_KEYS) {
+			Color changingColour = Color.FromArgb(
+				170,
+				255,
+				255,
+				255
+			); // Faded white
+			foreach (Ripple ripple in volatileRipples) {
+				double distance = ripple.distanceToCircumference(locatedKey.location);
+
+				double intensityFactor = FADE_DISTANCE - distance;
+				if (intensityFactor <= 0) continue;
+
+				double intensityInterval = intensityFactor / FADE_DISTANCE;
+				if (intensityInterval <= INTENSITY_SNAP) intensityInterval = 1;
+				else intensityInterval = (intensityInterval - INTENSITY_SNAP) / (1 - INTENSITY_SNAP);
+
+				double alpha = intensityInterval * 255;
+				Color frontColour = ColourUtilities.overwriteAlpha(
+					ripple.colour,
+					alpha
+				);
+
+				changingColour = ColourUtilities.alphaCompositeOver(
+					frontColour,
+					changingColour
+				);
+			}
+
+			G.LogiLedSetLightingForKeyWithKeyName(
+				locatedKey.lightKey,
+				ColourUtilities.toAlphaPercentage(changingColour.R, changingColour.A),
+				ColourUtilities.toAlphaPercentage(changingColour.G, changingColour.A),
+				ColourUtilities.toAlphaPercentage(changingColour.B, changingColour.A)
+			);
+		}
+
+		for (int i = volatileRipples.Count - 1; i >= 0; i--) {
+			Ripple ripple = volatileRipples[i];
+
+			ripple.radius += FRAME_RADIUS;
+			if (ripple.radius > 50) volatileRipples.RemoveAt(i);
+		}
 	}
 }
