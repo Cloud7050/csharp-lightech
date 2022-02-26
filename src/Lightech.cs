@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 using H.Hooks;
 
@@ -8,10 +9,28 @@ using N = LedCSharp.keyboardNames;
 
 
 public static class Lightech {
-	private static readonly int FPS = 240;
-	private static readonly TimeSpan FRAME_TIME = TimeSpan.FromSeconds(1d / FPS);
+	private static readonly double PERFECT_FPS = 300;
+	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
+	private static readonly double FRAME_RADIUS = 40 / PERFECT_FPS;
+
+	private static readonly double FADE_DISTANCE = 1.5;
+	private static readonly double INTENSITY_SNAP = 0.1;
 
 	private static readonly LocatedKey[] LOCATED_KEYS = new LocatedKey[] {
+		new LocatedKey(new Vector2(-6.25f, 2), Key.OemTilde, N.TILDE),
+		new LocatedKey(new Vector2(-5.25f, 2), Key.D1, N.ONE),
+		new LocatedKey(new Vector2(-4.25f, 2), Key.D2, N.TWO),
+		new LocatedKey(new Vector2(-3.25f, 2), Key.D3, N.THREE),
+		new LocatedKey(new Vector2(-2.25f, 2), Key.D4, N.FOUR),
+		new LocatedKey(new Vector2(-1.25f, 2), Key.D5, N.FIVE),
+		new LocatedKey(new Vector2(-0.25f, 2), Key.D6, N.SIX),
+		new LocatedKey(new Vector2(0.75f, 2), Key.D7, N.SEVEN),
+		new LocatedKey(new Vector2(1.75f, 2), Key.D8, N.EIGHT),
+		new LocatedKey(new Vector2(2.75f, 2), Key.D9, N.NINE),
+		new LocatedKey(new Vector2(3.75f, 2), Key.D0, N.ZERO),
+		new LocatedKey(new Vector2(4.75f, 2), Key.OemMinus, N.MINUS),
+		new LocatedKey(new Vector2(5.75f, 2), Key.OemPlus, N.EQUALS),
+
 		new LocatedKey(new Vector2(-4.75f, 1), Key.Q, N.Q),
 		new LocatedKey(new Vector2(-3.75f, 1), Key.W, N.W),
 		new LocatedKey(new Vector2(-2.75f, 1), Key.E, N.E),
@@ -49,7 +68,8 @@ public static class Lightech {
 		new LocatedKey(new Vector2(5, -1), Key.OemQuestion, N.FORWARD_SLASH)
 	};
 
-	private static readonly List<Ripple> ripples = new List<Ripple>();
+	private static readonly List<Ripple> incomingRipples = new List<Ripple>();
+	private static readonly List<Ripple> volatileRipples = new List<Ripple>();
 
 	public static void Main(string[] args) {
 		G.LogiLedInit();
@@ -79,8 +99,11 @@ public static class Lightech {
 			foreach (LocatedKey locatedKey in LOCATED_KEYS) {
 				if (!data.Keys.Values.Contains(locatedKey.hookKey)) continue;
 
-				ripples.Add(
-					new Ripple(locatedKey.location)
+				incomingRipples.Add(
+					new Ripple(
+						locatedKey.location,
+						ColourStream.nextColour()
+					)
 				);
 				return;
 			}
@@ -91,38 +114,58 @@ public static class Lightech {
 	}
 
 	private static void animate() {
+		//NOTE temp
 		G.LogiLedSetLighting(100, 100, 100);
 
 		TimerCallback animationCallback = (object? _state) => {
+			while (incomingRipples.Count > 0) {
+				Ripple incomingRipple = incomingRipples[0];
+				incomingRipples.RemoveAt(0);
+				volatileRipples.Add(incomingRipple);
+			}
+
 			foreach (LocatedKey locatedKey in LOCATED_KEYS) {
-				double colourIntensity = 0;
-				foreach (Ripple ripple in ripples) {
+				Color changingColour = Color.FromArgb(
+					200,
+					255,
+					255,
+					255
+				); // Faded white
+				foreach (Ripple ripple in volatileRipples) {
 					double distance = ripple.distanceToCircumference(locatedKey.location);
 
-					double intensityFactor = (1.5 - distance) / 1.5;
+					double intensityFactor = FADE_DISTANCE - distance;
 					if (intensityFactor <= 0) continue;
 
-					colourIntensity = Math.Max(
-						colourIntensity,
-						intensityFactor
+					double intensityInterval = intensityFactor / FADE_DISTANCE;
+					if (intensityInterval <= INTENSITY_SNAP) intensityInterval = 1;
+					else intensityInterval = (intensityInterval - INTENSITY_SNAP) / (1 - INTENSITY_SNAP);
+
+					double alpha = intensityInterval * 255;
+					Color frontColour = ColourUtilities.overwriteAlpha(
+						ripple.colour,
+						alpha
+					);
+
+					changingColour = ColourUtilities.alphaCompositeOver(
+						frontColour,
+						changingColour
 					);
 				}
 
-				int colourPercentage = Convert.ToInt32(100 * colourIntensity);
-
 				G.LogiLedSetLightingForKeyWithKeyName(
 					locatedKey.lightKey,
-					100 - colourPercentage,
-					100,
-					100 - colourPercentage
+					ColourUtilities.toPercentage(changingColour.R),
+					ColourUtilities.toPercentage(changingColour.G),
+					ColourUtilities.toPercentage(changingColour.B)
 				);
 			}
 
-			for (int i = ripples.Count - 1; i >= 0; i--) {
-				Ripple ripple = ripples[i];
+			for (int i = volatileRipples.Count - 1; i >= 0; i--) {
+				Ripple ripple = volatileRipples[i];
 
-				ripple.radius += (40d / FPS);
-				if (ripple.radius > 100) ripples.RemoveAt(i);
+				ripple.radius += FRAME_RADIUS;
+				if (ripple.radius > 50) volatileRipples.RemoveAt(i);
 			}
 		};
 
@@ -130,7 +173,7 @@ public static class Lightech {
 			animationCallback,
 			null,
 			TimeSpan.Zero,
-			FRAME_TIME
+			FRAME_SLEEP
 		);
 	}
 }
