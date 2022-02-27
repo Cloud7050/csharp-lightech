@@ -3,13 +3,17 @@
 
 
 public static class ColourUtilities {
-	public static Color overwriteAlpha(Color colour, double alpha) {
-		return Color.FromArgb(
-			Convert.ToInt32(alpha),
-			colour.R,
-			colour.G,
-			colour.B
-		);
+	private static double alphaCompositeOverComponent(
+		int frontColour,
+		int backColour,
+		int frontAlpha,
+		int backAlpha,
+		double finalAlphaInterval
+	) {
+		double frontAlphaInterval = frontAlpha / 255d;
+		double backAlphaInterval = backAlpha / 255d;
+
+		return ((frontColour * frontAlphaInterval) + (backColour * backAlphaInterval * (1 - frontAlphaInterval))) / finalAlphaInterval;
 	}
 
 	public static Color alphaCompositeOver(Color front, Color back) {
@@ -48,17 +52,14 @@ public static class ColourUtilities {
 			Convert.ToInt32(finalBlue)
 		);
 	}
-	private static double alphaCompositeOverComponent(
-		int frontColour,
-		int backColour,
-		int frontAlpha,
-		int backAlpha,
-		double finalAlphaInterval
-	) {
-		double frontAlphaInterval = frontAlpha / 255d;
-		double backAlphaInterval = backAlpha / 255d;
 
-		return ((frontColour * frontAlphaInterval) + (backColour * backAlphaInterval * (1 - frontAlphaInterval))) / finalAlphaInterval;
+	public static Color overwriteAlpha(Color colour, double alpha) {
+		return Color.FromArgb(
+			Convert.ToInt32(alpha),
+			colour.R,
+			colour.G,
+			colour.B
+		);
 	}
 
 	public static int toAlphaPercentage(int component, int alpha) {
