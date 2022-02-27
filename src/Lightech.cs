@@ -231,7 +231,7 @@ public static class Lightech {
 	}
 
 	private static void animate() {
-		G.LogiLedSetLighting(0, 100, 0);
+		G.LogiLedSetLighting(33, 100, 33);
 
 		Timer timer = new Timer(
 			onFrame,
@@ -249,7 +249,7 @@ public static class Lightech {
 
 		foreach (LocatedKey locatedKey in LOCATED_KEYS) {
 			Color changingColour = Color.FromArgb(
-				127,
+				128,
 				255,
 				255,
 				255
