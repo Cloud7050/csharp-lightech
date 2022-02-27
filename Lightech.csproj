@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>exe</OutputType>
-    <!-- <OutputType>winexe</OutputType> -->
+    <!-- <OutputType>exe</OutputType> -->
+    <OutputType>winexe</OutputType>
 
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -14,6 +14,12 @@
 
   <ItemGroup>
     <PackageReference Include="H.Hooks" Version="1.4.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="lib\LogitechLedEnginesWrapper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
