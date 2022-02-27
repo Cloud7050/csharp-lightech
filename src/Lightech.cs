@@ -165,6 +165,8 @@ public static class Lightech {
 	private static readonly List<Ripple> incomingRipples = new List<Ripple>();
 	private static readonly List<Ripple> volatileRipples = new List<Ripple>();
 
+	private static Timer? timer;
+
 	public static void Main(string[] args) {
 		G.LogiLedInit();
 
@@ -233,7 +235,7 @@ public static class Lightech {
 	private static void animate() {
 		G.LogiLedSetLighting(33, 100, 33);
 
-		Timer timer = new Timer(
+		timer = new Timer(
 			onFrame,
 			null,
 			TimeSpan.Zero,
