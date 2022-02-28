@@ -1,11 +1,15 @@
 class Colour {
 	public static readonly int MIN = 0x00;
 	public static readonly int LOW = 0x55;
+	public static readonly int HIGH = 0xAA;
 	public static readonly int MAX = 0xFF;
 
 	public static readonly Colour WHITE = new Colour(MAX);
 	public static readonly Colour LIME = new Colour(LOW, MAX, LOW);
-	public static readonly Colour CYAN = new Colour(LOW, MAX, MAX);
+	public static readonly Colour AQUA = new Colour(LOW, MAX, MAX);
+	public static readonly Colour YELLOW = new Colour(MAX, MAX, LOW);
+	public static readonly Colour ORANGE = new Colour(MAX, HIGH, MIN);
+	public static readonly Colour PINK = new Colour(MAX, LOW, MAX);
 	public static readonly Colour BLACK = new Colour(MIN);
 
 	public int red = MIN;
