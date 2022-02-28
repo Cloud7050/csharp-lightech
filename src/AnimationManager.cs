@@ -1,7 +1,3 @@
-using G = LedCSharp.LogitechGSDK;
-
-
-
 public static class AnimationManager {
 	public static readonly double PERFECT_FPS = 240;
 	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
@@ -11,13 +7,12 @@ public static class AnimationManager {
 	private static bool connected = false;
 
 	private static void awaitConnection() {
-		bool success = dummyCommand();
+		bool success = G.dummyCommand();
 		if (success) return;
 
 		while (true) {
-			disconnect();
-			G.LogiLedInitWithName("Lightech ☁");
-			success = dummyCommand();
+			G.reconnect();
+			success = G.dummyCommand();
 
 			if (success) {
 				Console.WriteLine(">>> Connected ✅");
@@ -30,40 +25,41 @@ public static class AnimationManager {
 			Thread.Sleep(CONNECTION_INTERVAL);
 		}
 	}
-	private static bool dummyCommand() {
-		return G.LogiLedSetLightingForKeyWithScanCode(7050, 0, 0, 0);
-	}
-
-	private static void disconnect() {
-		G.LogiLedShutdown();
-	}
 
 	private static void loopFrame() {
 		awaitConnection();
 
-		//TODO Actually do effect
-		G.LogiLedSetLighting(0, 100, 100);
+		doFrame();
 
 		Thread.Sleep(FRAME_SLEEP);
 		loopFrame();
+	}
+	private static void doFrame() {
+		//TODO Actually do effect
+		G.colourGlobally(
+			Colour.CYAN
+		);
 	}
 
 	public static bool isConnected() {
 		return connected;
 	}
 
-	public static void connect() {
+	public static void onStart() {
 		awaitConnection();
 	}
 
-	public static void start() {
+	public static void onAnimate() {
 		//TODO Make its own effect
-		G.LogiLedSetLighting(33, 100, 33);
+		G.colourGlobally(
+			// new Colour(0x55, 0xFF, 0x55)
+			Colour.LIME
+		);
 
 		loopFrame();
 	}
 
-	public static void end() {
-		disconnect();
+	public static void onEnd() {
+		G.disconnect();
 	}
 }
