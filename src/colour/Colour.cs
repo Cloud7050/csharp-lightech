@@ -42,25 +42,45 @@ class Colour {
 		alpha = _alpha;
 	}
 
-	private int round(double number) {
+	private static int round(double number) {
 		return (int) Math.Round(
 			number,
 			MidpointRounding.AwayFromZero
 		);
 	}
 
-	private double toInterval(int component) {
+	private static double toInterval(int component) {
 		return ((double) component) / MAX;
 	}
 
-	private double toPercentageDouble(int component) {
+	private static int fromInterval(double interval) {
+		return round(interval * MAX);
+	}
+
+	private static double toPercentageDouble(int component) {
 		double componentInterval = toInterval(component);
 		return componentInterval * 100;
 	}
 
-	private int toPercentage(int component) {
+	private static int toPercentage(int component) {
 		double componentPercentage = toPercentageDouble(component);
 		return round(componentPercentage);
+	}
+
+	private static int alphaCompositeOverComponent(
+		int frontComponent,
+		int backComponent,
+		double frontAlphaInterval,
+		double backAlphaInterval,
+		double finalAlphaInterval
+	) {
+		return round(
+			(
+				(frontComponent * frontAlphaInterval) + (
+					backComponent * backAlphaInterval * (1 - frontAlphaInterval)
+				)
+			) / finalAlphaInterval
+		);
 	}
 
 	private int toPercentageDimmed(int component) {
@@ -83,5 +103,34 @@ class Colour {
 
 	public int getPercentageDimmedBlue() {
 		return toPercentageDimmed(blue);
+	}
+
+	public void alphaCompositeOver(Colour front) {
+		double frontAlphaInterval = front.getAlphaInterval();
+		double backAlphaInterval = getAlphaInterval();
+		double finalAlphaInterval = frontAlphaInterval + (backAlphaInterval * (1 - frontAlphaInterval));
+
+		red = alphaCompositeOverComponent(
+			front.red,
+			red,
+			frontAlphaInterval,
+			backAlphaInterval,
+			finalAlphaInterval
+		);
+		green = alphaCompositeOverComponent(
+			front.green,
+			green,
+			frontAlphaInterval,
+			backAlphaInterval,
+			finalAlphaInterval
+		);
+		blue = alphaCompositeOverComponent(
+			front.blue,
+			blue,
+			frontAlphaInterval,
+			backAlphaInterval,
+			finalAlphaInterval
+		);
+		alpha = fromInterval(finalAlphaInterval);
 	}
 }
