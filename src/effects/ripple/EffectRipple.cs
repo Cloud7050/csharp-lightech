@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using H.Hooks;
 
 
@@ -18,7 +19,7 @@ class EffectRipple : Effect {
 			ripple.outOfRange = true;
 		}
 
-		LightKeyManager.forEachGKey((LightKey lightKey) => {
+		LightKeyManager.forEachWithGKey((LightKey lightKey) => {
 			Colour changingColour = new Colour(
 				Colour.MAX,
 				Colour.MAX,
@@ -52,21 +53,20 @@ class EffectRipple : Effect {
 	}
 
 	public override void onKeyDown(KeyboardEventArgs data) {
-		//TODO
-		// foreach (Key hookKey in data.Keys.Values) {
-		// 	foreach (LightKey locatedKey in LOCATED_KEYS) {
-		// 		if (hookKey != locatedKey.hookKey) continue;
+		List<Key> relevantKeys = data.Keys.Values.ToList();
+		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
+			if (relevantKeys.Count == 0) return LightKeyManager.BREAK;
 
-		// 		if (downKeys.Contains(hookKey)) continue;
+			Key eventKey = (Key) lightKey.eventKey!;
+			if (!relevantKeys.Contains(eventKey)) return LightKeyManager.CONTINUE;
+			relevantKeys.Remove(eventKey);
 
-		// 		incomingRipples.Add(
-		// 			new Ripple(
-		// 				locatedKey.location,
-		// 				ColourStream.nextColour()
-		// 			)
-		// 		);
-		// 		return;
-		// 	}
-		// }
+			pendingRipples.Add(
+				new Ripple(
+					lightKey.location.clone()
+				)
+			);
+			return LightKeyManager.CONTINUE;
+		});
 	}
 }

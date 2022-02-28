@@ -1,6 +1,6 @@
 class Point {
-	public double x;
-	public double y;
+	public readonly double x;
+	public readonly double y;
 
 	public Point(
 		double _x,
@@ -8,6 +8,10 @@ class Point {
 	) {
 		x = _x;
 		y = _y;
+	}
+
+	public Point clone() {
+		return new Point(x, y);
 	}
 
 	public double distanceTo(Point other) {

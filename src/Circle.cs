@@ -1,5 +1,6 @@
 class Circle {
-	public Point centre;
+	public readonly Point centre;
+
 	public double radius;
 
 	public Circle(
