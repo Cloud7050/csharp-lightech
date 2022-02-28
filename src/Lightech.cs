@@ -10,11 +10,6 @@ using N = LedCSharp.keyboardNames;
 
 
 public static class Lightech {
-	private static readonly double FRAME_RADIUS = 100 / AnimationManager.PERFECT_FPS;
-
-	private static readonly double FADE_DISTANCE = 1.5;
-	private static readonly double INTENSITY_SNAP = 0.1;
-
 	private static readonly KeyLight[] LOCATED_KEYS = new KeyLight[] {
 		// Row 5
 		new KeyLight(new Vector2(-7.75f, 5), null, N.G_LOGO),
