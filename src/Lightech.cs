@@ -10,7 +10,7 @@ using N = LedCSharp.keyboardNames;
 
 
 static class Lightech {
-	private static readonly KeyLight[] LOCATED_KEYS = new KeyLight[] {
+	private static readonly LightKey[] LOCATED_KEYS = new LightKey[] {
 		// Row 5
 		new KeyLight(new Vector2(-7.75f, 5), null, N.G_LOGO),
 
@@ -184,7 +184,7 @@ static class Lightech {
 
 		EventHandler<KeyboardEventArgs> downRippler = (object? sender, KeyboardEventArgs data) => {
 			foreach (Key hookKey in data.Keys.Values) {
-				foreach (KeyLight locatedKey in LOCATED_KEYS) {
+				foreach (LightKey locatedKey in LOCATED_KEYS) {
 					if (hookKey != locatedKey.hookKey) continue;
 
 					if (downKeys.Contains(hookKey)) continue;
@@ -230,7 +230,7 @@ static class Lightech {
 			volatileRipples.Add(incomingRipple);
 		}
 
-		foreach (KeyLight locatedKey in LOCATED_KEYS) {
+		foreach (LightKey locatedKey in LOCATED_KEYS) {
 			Color changingColour = Color.FromArgb(
 				128,
 				255,

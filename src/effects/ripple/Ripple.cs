@@ -21,7 +21,7 @@ class Ripple {
 		ring.radius += oneSecondDistance / AnimationManager.PERFECT_FPS;
 	}
 
-	public double alphaIntervalFor(KeyLight keyLight) {
+	public double alphaIntervalFor(LightKey keyLight) {
 		Circle lightCircle = keyLight.lightCircle;
 
 		double ringToLightCentre = ring.circumferenceDistanceTo(lightCircle.centre);
