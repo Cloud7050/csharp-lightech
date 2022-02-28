@@ -32,9 +32,9 @@ public static class G {
 		Colour colour
 	) {
 		return S.LogiLedSetLighting(
-			colour.dimmedPercentageR(),
-			colour.dimmedPercentageG(),
-			colour.dimmedPercentageB()
+			colour.getPercentageDimmedRed(),
+			colour.getPercentageDimmedGreen(),
+			colour.getPercentageDimmedBlue()
 		);
 	}
 
@@ -44,9 +44,9 @@ public static class G {
 	) {
 		return S.LogiLedSetLightingForKeyWithKeyName(
 			keyName,
-			colour.dimmedPercentageR(),
-			colour.dimmedPercentageG(),
-			colour.dimmedPercentageB()
+			colour.getPercentageDimmedRed(),
+			colour.getPercentageDimmedGreen(),
+			colour.getPercentageDimmedBlue()
 		);
 	}
 }
