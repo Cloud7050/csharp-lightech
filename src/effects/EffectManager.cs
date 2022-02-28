@@ -1,3 +1,7 @@
+using H.Hooks;
+
+
+
 static class EffectManager {
 	private static readonly Effect[] EFFECTS = new Effect[] {
 		new EffectGlobalWipe(),
@@ -10,5 +14,11 @@ static class EffectManager {
 
 	public static void onFrame() {
 		foreach (Effect effect in EFFECTS) effect.onFrame();
+	}
+
+	public static void registerKeyDowns(LowLevelKeyboardHook hook) {
+	}
+
+	public static void registerKeyUps(LowLevelKeyboardHook hook) {
 	}
 }
