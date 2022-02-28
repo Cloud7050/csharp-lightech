@@ -29,37 +29,27 @@ public static class AnimationManager {
 	private static void loopFrame() {
 		awaitConnection();
 
-		doFrame();
+		EffectManager.onFrame();
 
 		Thread.Sleep(FRAME_SLEEP);
 		loopFrame();
-	}
-	private static void doFrame() {
-		//TODO Actually do effect
-		G.colourGlobally(
-			Colour.CYAN
-		);
 	}
 
 	public static bool isConnected() {
 		return connected;
 	}
 
-	public static void onStart() {
+	public static void onInitialise() {
 		awaitConnection();
 	}
 
 	public static void onAnimate() {
-		//TODO Make its own effect
-		G.colourGlobally(
-			// new Colour(0x55, 0xFF, 0x55)
-			Colour.LIME
-		);
+		EffectManager.onStart();
 
 		loopFrame();
 	}
 
-	public static void onEnd() {
+	public static void onExit() {
 		G.disconnect();
 	}
 }

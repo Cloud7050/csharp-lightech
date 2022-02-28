@@ -166,13 +166,13 @@ public static class Lightech {
 	private static readonly List<Ripple> volatileRipples = new List<Ripple>();
 
 	public static void Main(string[] args) {
-		AnimationManager.onStart();
+		AnimationManager.onInitialise();
 
 		register();
 
 		AnimationManager.onAnimate();
 
-		AnimationManager.onEnd();
+		AnimationManager.onExit();
 	}
 
 	private static void register() {
