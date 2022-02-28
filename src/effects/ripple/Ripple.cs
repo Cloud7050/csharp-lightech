@@ -8,6 +8,8 @@ class Ripple {
 
 	private Colour colour;
 
+	public bool outOfRange = false;
+
 	public Ripple(
 		Circle _ring,
 		Colour _colour
@@ -16,14 +18,7 @@ class Ripple {
 		colour = _colour;
 	}
 
-	public void expandRadius() {
-		double oneSecondDistance = KeyLightManager.TOTAL_WIDTH * (1 / SECONDS_TO_TRAVEL_WIDTH);
-		ring.radius += oneSecondDistance / AnimationManager.PERFECT_FPS;
-	}
-
-	public double alphaIntervalFor(LightKey keyLight) {
-		Circle lightCircle = keyLight.lightCircle;
-
+	private double alphaIntervalFor(Circle lightCircle) {
 		double ringToLightCentre = ring.circumferenceDistanceTo(lightCircle.centre);
 		double distanceOutsideLightCircle = ringToLightCentre - lightCircle.radius;
 
@@ -42,5 +37,16 @@ class Ripple {
 		}
 
 		return intensity;
+	}
+
+	public Colour newColourFor(LightKey keyLight) {
+		Colour newColour = colour.clone();
+		newColour.alpha = alphaIntervalFor(keyLight.lightCircle);
+		return newColour;
+	}
+
+	public void expandRadius() {
+		double oneSecondDistance = KeyLightManager.TOTAL_WIDTH * (1 / SECONDS_TO_TRAVEL_WIDTH);
+		ring.radius += oneSecondDistance / AnimationManager.PERFECT_FPS;
 	}
 }

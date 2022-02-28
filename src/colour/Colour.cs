@@ -1,6 +1,7 @@
 class Colour {
 	public static readonly int MIN = 0x00;
 	public static readonly int LOW = 0x55;
+	public static readonly int MEDIUM = 0x80;
 	public static readonly int HIGH = 0xAA;
 	public static readonly int MAX = 0xFF;
 
@@ -67,7 +68,7 @@ class Colour {
 		return round(componentPercentage);
 	}
 
-	private static int alphaCompositeOverComponent(
+	private static int alphaCompositeComponent(
 		int frontComponent,
 		int backComponent,
 		double frontAlphaInterval,
@@ -89,6 +90,15 @@ class Colour {
 		return round(componentPercentage * alphaInterval);
 	}
 
+	public Colour clone() {
+		return new Colour(
+			red,
+			green,
+			blue,
+			alpha
+		);
+	}
+
 	public double getAlphaInterval() {
 		return toInterval(alpha);
 	}
@@ -105,26 +115,26 @@ class Colour {
 		return toPercentageDimmed(blue);
 	}
 
-	public void alphaCompositeOver(Colour front) {
+	public void alphaCompositeBehind(Colour front) {
 		double frontAlphaInterval = front.getAlphaInterval();
 		double backAlphaInterval = getAlphaInterval();
 		double finalAlphaInterval = frontAlphaInterval + (backAlphaInterval * (1 - frontAlphaInterval));
 
-		red = alphaCompositeOverComponent(
+		red = alphaCompositeComponent(
 			front.red,
 			red,
 			frontAlphaInterval,
 			backAlphaInterval,
 			finalAlphaInterval
 		);
-		green = alphaCompositeOverComponent(
+		green = alphaCompositeComponent(
 			front.green,
 			green,
 			frontAlphaInterval,
 			backAlphaInterval,
 			finalAlphaInterval
 		);
-		blue = alphaCompositeOverComponent(
+		blue = alphaCompositeComponent(
 			front.blue,
 			blue,
 			frontAlphaInterval,
