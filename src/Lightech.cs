@@ -2,15 +2,15 @@
 using System.Numerics;
 using H.Hooks;
 
+
+
 using G = LedCSharp.LogitechGSDK;
 using N = LedCSharp.keyboardNames;
 
 
 
 public static class Lightech {
-	private static readonly double PERFECT_FPS = 400;
-	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
-	private static readonly double FRAME_RADIUS = 100 / PERFECT_FPS;
+	private static readonly double FRAME_RADIUS = 100 / AnimationManager.PERFECT_FPS;
 
 	private static readonly double FADE_DISTANCE = 1.5;
 	private static readonly double INTENSITY_SNAP = 0.1;
@@ -165,18 +165,14 @@ public static class Lightech {
 	private static readonly List<Ripple> incomingRipples = new List<Ripple>();
 	private static readonly List<Ripple> volatileRipples = new List<Ripple>();
 
-	private static Timer? timer;
-
 	public static void Main(string[] args) {
-		G.LogiLedInit();
+		AnimationManager.connect();
 
 		register();
 
-		animate();
+		AnimationManager.start();
 
-		Thread.Sleep(Timeout.Infinite);
-
-		G.LogiLedShutdown();
+		AnimationManager.end();
 	}
 
 	private static void register() {
@@ -232,16 +228,6 @@ public static class Lightech {
 		hook.Start();
 	}
 
-	private static void animate() {
-		G.LogiLedSetLighting(33, 100, 33);
-
-		timer = new Timer(
-			onFrame,
-			null,
-			TimeSpan.Zero,
-			FRAME_SLEEP
-		);
-	}
 	private static void onFrame(object? _state) {
 		while (incomingRipples.Count > 0) {
 			Ripple incomingRipple = incomingRipples[0];
@@ -291,7 +277,7 @@ public static class Lightech {
 
 			ripple.radius += FRAME_RADIUS;
 
-			// 24.5 width, 8 height
+			// 24 width, 7.5 height
 			if (ripple.radius > 30) volatileRipples.RemoveAt(i);
 		}
 	}
