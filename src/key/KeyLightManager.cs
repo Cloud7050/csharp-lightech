@@ -1,2 +1,2 @@
-public static class KeyLightManager {
+static class KeyLightManager {
 }

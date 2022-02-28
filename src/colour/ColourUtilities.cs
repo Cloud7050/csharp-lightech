@@ -2,7 +2,7 @@
 
 
 
-public static class ColourUtilities {
+static class ColourUtilities {
 	private static double alphaCompositeOverComponent(
 		int frontColour,
 		int backColour,

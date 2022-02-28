@@ -9,7 +9,7 @@ using N = LedCSharp.keyboardNames;
 
 
 
-public static class Lightech {
+static class Lightech {
 	private static readonly KeyLight[] LOCATED_KEYS = new KeyLight[] {
 		// Row 5
 		new KeyLight(new Vector2(-7.75f, 5), null, N.G_LOGO),

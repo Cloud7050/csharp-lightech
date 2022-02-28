@@ -3,7 +3,7 @@ using N = LedCSharp.keyboardNames;
 
 
 
-public static class G {
+static class G {
 	public static bool connect(
 		string? name = "Lightech ☁"
 	) {

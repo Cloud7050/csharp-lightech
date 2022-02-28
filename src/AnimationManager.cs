@@ -1,4 +1,4 @@
-public static class AnimationManager {
+static class AnimationManager {
 	//TODO As TARGET_FPS
 	public static readonly double PERFECT_FPS = 240;
 	//TODO As FRAME_INTERVAL

@@ -1,4 +1,4 @@
-﻿public static class ColourStream {
+﻿static class ColourStream {
 	private static readonly Colour[] COLOURS = new Colour[] {
 		Colour.WHITE,
 		Colour.LIME,
