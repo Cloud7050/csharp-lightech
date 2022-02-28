@@ -7,13 +7,13 @@ using N = LedCSharp.keyboardNames;
 
 
 
-public class LocatedKey {
+class KeyLight {
 	public readonly Vector2 location;
 
 	public readonly Key? hookKey;
 	public readonly N lightKey;
 
-	public LocatedKey(
+	public KeyLight(
 		Vector2 _location,
 		Key? _hookKey,
 		N _lightKey

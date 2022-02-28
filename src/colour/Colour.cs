@@ -1,9 +1,4 @@
-public class Colour {
-	public int red = MIN;
-	public int green = MIN;
-	public int blue = MIN;
-	public int alpha = MIN;
-
+class Colour {
 	public static readonly int MIN = 0x00;
 	public static readonly int LOW = 0x55;
 	public static readonly int MAX = 0xFF;
@@ -12,6 +7,11 @@ public class Colour {
 	public static readonly Colour LIME = new Colour(LOW, MAX, LOW);
 	public static readonly Colour CYAN = new Colour(LOW, MAX, MAX);
 	public static readonly Colour BLACK = new Colour(MIN);
+
+	public int red = MIN;
+	public int green = MIN;
+	public int blue = MIN;
+	public int alpha = MIN;
 
 	public Colour(int component) : this(component, component, component) {}
 

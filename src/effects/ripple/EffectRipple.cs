@@ -1,2 +1,2 @@
-public class EffectRipple : Effect {
+class EffectRipple : Effect {
 }

@@ -137,7 +137,7 @@ namespace LedCSharp
 		Speaker = 0xe
 	}
 
-	public class LogitechGSDK
+	class LogitechGSDK
 	{
 		//LED SDK
 		private const int LOGI_DEVICETYPE_MONOCHROME_ORD = 0;

@@ -1,5 +1,7 @@
 public static class AnimationManager {
+	//TODO As TARGET_FPS
 	public static readonly double PERFECT_FPS = 240;
+	//TODO As FRAME_INTERVAL
 	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
 
 	private static readonly TimeSpan CONNECTION_INTERVAL = TimeSpan.FromSeconds(15);
