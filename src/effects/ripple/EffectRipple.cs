@@ -7,8 +7,8 @@ using N = LedCSharp.keyboardNames;
 
 
 class EffectRipple : Effect {
-	private static readonly List<Ripple> pendingRipples = new List<Ripple>();
-	private static readonly List<Ripple> liveRipples = new List<Ripple>();
+	private static List<Ripple> pendingRipples = new List<Ripple>();
+	private static List<Ripple> liveRipples = new List<Ripple>();
 
 	public override void onFrame() {
 		while (pendingRipples.Count > 0) {
@@ -47,14 +47,9 @@ class EffectRipple : Effect {
 		}
 	}
 
-	public override void onKeyDown(KeyboardEventArgs data) {
-		List<Key> relevantKeys = data.Keys.Values.ToList();
+	public override void onKeyDown(Key eventKey) {
 		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
-			if (relevantKeys.Count == 0) return LightKeyManager.BREAK;
-
-			Key eventKey = (Key) lightKey.eventKey!;
-			if (!relevantKeys.Contains(eventKey)) return LightKeyManager.CONTINUE;
-			relevantKeys.Remove(eventKey);
+			if (eventKey != lightKey.eventKey) return LightKeyManager.CONTINUE;
 
 			pendingRipples.Add(
 				new Ripple(
