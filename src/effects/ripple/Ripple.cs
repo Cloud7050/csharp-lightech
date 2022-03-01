@@ -1,7 +1,7 @@
 class Ripple {
 	private static readonly double FADE_DISTANCE = 1.5;
 
-	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 1.25;
+	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 2;
 
 	private Circle ring;
 

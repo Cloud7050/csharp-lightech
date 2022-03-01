@@ -1,6 +1,6 @@
 static class AnimationManager {
 	//TODO As TARGET_FPS
-	public static readonly double PERFECT_FPS = 240;
+	public static readonly double PERFECT_FPS = 30;
 	//TODO As FRAME_INTERVAL
 	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
 
@@ -29,12 +29,13 @@ static class AnimationManager {
 	}
 
 	private static void loopFrame() {
-		awaitConnection();
+		while (true) {
+			awaitConnection();
 
-		EffectManager.onFrame();
+			EffectManager.onFrame();
 
-		Thread.Sleep(FRAME_SLEEP);
-		loopFrame();
+			Thread.Sleep(FRAME_SLEEP);
+		}
 	}
 
 	public static bool isConnected() {
