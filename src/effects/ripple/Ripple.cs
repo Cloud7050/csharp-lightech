@@ -2,13 +2,10 @@ class Ripple {
 	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 1.25;
 
 	private static readonly double FADE_DISTANCE = 1.5;
-	private static readonly double INTENSITY_SNAP = 0.9;
 
 	private Circle ring;
 
 	private Colour colour;
-
-	public bool outOfRange = false;
 
 	public Ripple(
 		Point centre,
@@ -21,28 +18,39 @@ class Ripple {
 
 	private double alphaIntervalFor(Circle lightCircle) {
 		double ringToLightCentre = ring.circumferenceDistanceTo(lightCircle.centre);
-		double distanceOutsideLightCircle = ringToLightCentre - lightCircle.radius;
+		double lengthOutsideLightCircle = ringToLightCentre - lightCircle.radius;
 
-		double intensity;
-		if (distanceOutsideLightCircle <= 0) intensity = 1;
-		else {
-			double validDistance = FADE_DISTANCE - distanceOutsideLightCircle;
+		if (lengthOutsideLightCircle <= 0) return 1;
 
-			if (validDistance <= 0) intensity = 0;
-			else {
-				intensity = validDistance / FADE_DISTANCE;
+		if (lengthOutsideLightCircle > FADE_DISTANCE) return 0;
 
-				if (intensity > INTENSITY_SNAP) intensity = 1;
-				else intensity /= INTENSITY_SNAP;
-			}
-		}
+		double proximityToDimmestArc = FADE_DISTANCE - lengthOutsideLightCircle;
+		return proximityToDimmestArc / FADE_DISTANCE;
 
-		return intensity;
+		//TODO
+		// if (distanceOutsideLightCircle <= 0) return 1;
+
+		// double validDistance = FADE_DISTANCE - distanceOutsideLightCircle;
+		// return validDistance <= 0
+		// 	? 0
+		// 	: validDistance / FADE_DISTANCE;
+	}
+
+	public bool exceedsKeyboard() {
+		Circle boundingCircle = ring.clone();
+		boundingCircle.radius -= FADE_DISTANCE;
+
+		return boundingCircle.contains(LightKeyManager.TOP_LEFT)
+			&& boundingCircle.contains(LightKeyManager.TOP_RIGHT)
+			&& boundingCircle.contains(LightKeyManager.BOTTOM_LEFT)
+			&& boundingCircle.contains(LightKeyManager.BOTTOM_RIGHT);
 	}
 
 	public Colour newColourFor(LightKey lightKey) {
 		Colour newColour = colour.clone();
-		newColour.alpha = alphaIntervalFor(lightKey.lightCircle);
+		newColour.setAlphaInterval(
+			alphaIntervalFor(lightKey.circle)
+		);
 		return newColour;
 	}
 

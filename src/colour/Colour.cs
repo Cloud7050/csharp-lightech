@@ -103,6 +103,10 @@ class Colour {
 		return toInterval(alpha);
 	}
 
+	public void setAlphaInterval(double alphaInterval) {
+		alpha = fromInterval(alphaInterval);
+	}
+
 	public int getPercentageDimmedRed() {
 		return toPercentageDimmed(red);
 	}

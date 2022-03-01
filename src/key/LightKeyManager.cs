@@ -169,14 +169,30 @@ static class LightKeyManager {
 	public static readonly bool CONTINUE = true;
 	public static readonly bool BREAK = false;
 
-	public static void forEachWithEventKey(Func<LightKey, bool> callback) {
+	private static void forEachCondition(
+		Func<LightKey, bool> condition,
+		Func<LightKey, bool> callback
+	) {
 		foreach (LightKey lightKey in LIGHT_KEYS) {
-			if (lightKey.eventKey == null) continue;
+			if (!condition(lightKey)) continue;
 
+			// If not callback, break
 			bool action = callback(lightKey);
 			if (action == BREAK) break;
 		}
 	}
 
-	//TODO Gkey loop, extracted condition
+	public static void forEachWithEventKey(Func<LightKey, bool> callback) {
+		forEachCondition(
+			(LightKey lightKey) => lightKey.eventKey != null,
+			callback
+		);
+	}
+
+	public static void forEachWithGKey(Func<LightKey, bool> callback) {
+		forEachCondition(
+			(LightKey lightKey) => lightKey.gKey != null,
+			callback
+		);
+	}
 }

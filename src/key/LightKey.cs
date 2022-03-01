@@ -7,17 +7,22 @@ using N = LedCSharp.keyboardNames;
 
 
 class LightKey {
-	public readonly Point location;
+	public readonly Circle circle;
 
 	public readonly Key? eventKey;
 	public readonly N? gKey;
 
 	public LightKey(
-		Point _location,
+		Point centre,
 		Key? _eventKey,
-		N? _gKey
+		N? _gKey,
+		double radius = 0.25
 	) {
-		location = _location;
+		circle = new Circle(
+			centre,
+			radius
+		);
+
 		eventKey = _eventKey;
 		gKey = _gKey;
 	}

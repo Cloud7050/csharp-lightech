@@ -1,5 +1,8 @@
-using System.Diagnostics.Tracing;
 using H.Hooks;
+
+
+
+using N = LedCSharp.keyboardNames;
 
 
 
@@ -11,12 +14,8 @@ class EffectRipple : Effect {
 		while (pendingRipples.Count > 0) {
 			Ripple ripple = pendingRipples[0];
 
-			pendingRipples.Remove(ripple);
+			pendingRipples.RemoveAt(0);
 			liveRipples.Add(ripple);
-		}
-
-		foreach (Ripple ripple in liveRipples) {
-			ripple.outOfRange = true;
 		}
 
 		LightKeyManager.forEachWithGKey((LightKey lightKey) => {
@@ -30,25 +29,21 @@ class EffectRipple : Effect {
 				Colour frontColour = ripple.newColourFor(lightKey);
 				if (frontColour.alpha == 0) continue;
 
-				ripple.outOfRange = false;
 				changingColour.alphaCompositeBehind(frontColour);
 			}
 
 			G.colour(
-				lightKey.gKey,
+				(N) lightKey.gKey!,
 				changingColour
 			);
+			return LightKeyManager.CONTINUE;
 		});
 
 		for (int i = liveRipples.Count - 1; i >= 0; i--) {
 			Ripple ripple = liveRipples[i];
 
-			if (ripple.outOfRange) {
-				liveRipples.RemoveAt(i);
-				continue;
-			}
-
 			ripple.expandRadius();
+			if (ripple.exceedsKeyboard()) liveRipples.RemoveAt(i);
 		}
 	}
 
@@ -63,7 +58,7 @@ class EffectRipple : Effect {
 
 			pendingRipples.Add(
 				new Ripple(
-					lightKey.location.clone()
+					lightKey.circle.centre.clone()
 				)
 			);
 			return LightKeyManager.CONTINUE;
