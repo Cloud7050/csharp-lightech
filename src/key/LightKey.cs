@@ -13,7 +13,7 @@ class LightKey {
 	public readonly N? gKey;
 
 	public LightKey(
-		Point centre,
+		ImmutablePoint centre,
 		Key? _eventKey,
 		N? _gKey,
 		double radius = 0.25

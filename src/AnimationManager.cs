@@ -37,6 +37,7 @@ static class AnimationManager {
 		loopFrame();
 	}
 
+	//TODO key events only while connected
 	public static bool isConnected() {
 		return connected;
 	}

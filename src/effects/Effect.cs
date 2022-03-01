@@ -2,7 +2,7 @@ using H.Hooks;
 
 
 
-public abstract class Effect {
+abstract class Effect {
 	public virtual void onStart() {}
 
 	public virtual void onFrame() {}

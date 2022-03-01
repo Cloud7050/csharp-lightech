@@ -58,7 +58,7 @@ class EffectRipple : Effect {
 
 			pendingRipples.Add(
 				new Ripple(
-					lightKey.circle.centre.clone()
+					lightKey.circle.centre
 				)
 			);
 			return LightKeyManager.CONTINUE;

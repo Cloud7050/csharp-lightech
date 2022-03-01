@@ -1,14 +1,14 @@
 class Ripple {
-	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 1.25;
-
 	private static readonly double FADE_DISTANCE = 1.5;
+
+	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 1.25;
 
 	private Circle ring;
 
 	private Colour colour;
 
 	public Ripple(
-		Point centre,
+		ImmutablePoint centre,
 		Colour? _colour = null
 	) {
 		ring = new Circle(centre);
@@ -32,6 +32,7 @@ class Ripple {
 		Circle boundingCircle = ring.clone();
 		boundingCircle.radius -= FADE_DISTANCE;
 
+		//TODO
 		return boundingCircle.contains(LightKeyManager.TOP_LEFT)
 			&& boundingCircle.contains(LightKeyManager.TOP_RIGHT)
 			&& boundingCircle.contains(LightKeyManager.BOTTOM_LEFT)

@@ -17,8 +17,10 @@ static class EffectManager {
 	}
 
 	public static void registerKeyDowns(LowLevelKeyboardHook hook) {
+		//TODO
 	}
 
 	public static void registerKeyUps(LowLevelKeyboardHook hook) {
+		//TODO
 	}
 }

@@ -1,8 +1,8 @@
-class Point {
+class ImmutablePoint {
 	public readonly double x;
 	public readonly double y;
 
-	public Point(
+	public ImmutablePoint(
 		double _x,
 		double _y
 	) {
@@ -10,11 +10,7 @@ class Point {
 		y = _y;
 	}
 
-	public Point clone() {
-		return new Point(x, y);
-	}
-
-	public double distanceTo(Point other) {
+	public double distanceTo(ImmutablePoint other) {
 		return Math.Sqrt(
 			Math.Pow(x - other.x, 2) + Math.Pow(y - other.y, 2)
 		);

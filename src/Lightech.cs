@@ -1,4 +1,5 @@
 ﻿static class Lightech {
+	//TODO
 	private static readonly List<Key> downKeys = new List<Key>();
 
 	public static void Main(string[] args) {
