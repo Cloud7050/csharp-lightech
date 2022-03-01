@@ -26,14 +26,6 @@ class Ripple {
 
 		double proximityToDimmestArc = FADE_DISTANCE - lengthOutsideLightCircle;
 		return proximityToDimmestArc / FADE_DISTANCE;
-
-		//TODO
-		// if (distanceOutsideLightCircle <= 0) return 1;
-
-		// double validDistance = FADE_DISTANCE - distanceOutsideLightCircle;
-		// return validDistance <= 0
-		// 	? 0
-		// 	: validDistance / FADE_DISTANCE;
 	}
 
 	public bool exceedsKeyboard() {
