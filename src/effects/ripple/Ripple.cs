@@ -48,6 +48,6 @@ class Ripple {
 
 	public void expandRadius() {
 		double oneSecondDistance = LightKeyManager.LONGEST_SIDE * (1 / SECONDS_TO_TRAVEL_WIDTH);
-		ring.radius += oneSecondDistance / AnimationManager.PERFECT_FPS;
+		ring.radius += oneSecondDistance / AnimationManager.TARGET_FPS;
 	}
 }

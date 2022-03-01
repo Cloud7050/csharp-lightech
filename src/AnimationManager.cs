@@ -1,8 +1,7 @@
 static class AnimationManager {
-	//TODO As TARGET_FPS
-	public static readonly double PERFECT_FPS = 30;
-	//TODO As FRAME_INTERVAL
-	private static readonly TimeSpan FRAME_SLEEP = TimeSpan.FromSeconds(1d / PERFECT_FPS);
+	public static readonly double TARGET_FPS = 50;
+	private static readonly TimeSpan FRAME_INTERVAL = TimeSpan.FromSeconds(1d / TARGET_FPS);
+	private static readonly TimeSpan MINIMUM_SLEEP = TimeSpan.FromMilliseconds(1);
 
 	private static readonly TimeSpan CONNECTION_INTERVAL = TimeSpan.FromSeconds(15);
 
@@ -32,9 +31,18 @@ static class AnimationManager {
 		while (true) {
 			awaitConnection();
 
+			long startTicks = DateTime.Now.Ticks;
 			EffectManager.onFrame();
+			long endTicks = DateTime.Now.Ticks;
 
-			Thread.Sleep(FRAME_SLEEP);
+			TimeSpan busyTimespan = TimeSpan.FromTicks(endTicks - startTicks);
+			TimeSpan remainingSleep = FRAME_INTERVAL.Subtract(busyTimespan);
+
+			Thread.Sleep(
+				TimeSpan.Compare(remainingSleep, MINIMUM_SLEEP) > 0
+					? remainingSleep
+					: MINIMUM_SLEEP
+			);
 		}
 	}
 
