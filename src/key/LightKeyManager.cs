@@ -8,7 +8,7 @@ using N = LedCSharp.keyboardNames;
 
 static class LightKeyManager {
 	private static readonly LightKey[] ROW_7 = new LightKey[] {
-		new LightKey(new Point(-7.75, 5), null, N.G_LOGO)
+		new LightKey(new Point(-7.75, 5), null, N.G_LOGO, 1)
 	};
 
 	private static readonly LightKey[] ROW_6 = new LightKey[] {
