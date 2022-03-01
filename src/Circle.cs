@@ -1,5 +1,3 @@
-using System.Transactions;
-
 class Circle {
 	public readonly ImmutablePoint centre;
 
@@ -15,6 +13,22 @@ class Circle {
 
 	public Circle clone() {
 		return new Circle(centre, radius);
+	}
+
+	public double leftMost() {
+		return centre.x - radius;
+	}
+
+	public double rightMost() {
+		return centre.x + radius;
+	}
+
+	public double topMost() {
+		return centre.y + radius;
+	}
+
+	public double bottomMost() {
+		return centre.y - radius;
 	}
 
 	public double circumferenceDistanceTo(ImmutablePoint point) {

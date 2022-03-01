@@ -28,6 +28,13 @@ static class LightKeyManager {
 
 	private static readonly LightKey[] LIGHT_KEYS;
 
+	public static readonly ImmutablePoint TOP_LEFT;
+	public static readonly ImmutablePoint TOP_RIGHT;
+	public static readonly ImmutablePoint BOTTOM_LEFT;
+	public static readonly ImmutablePoint BOTTOM_RIGHT;
+
+	public static readonly double LONGEST_SIDE;
+
 	public static readonly bool CONTINUE = true;
 	public static readonly bool BREAK = false;
 
@@ -565,6 +572,29 @@ static class LightKeyManager {
 			.Concat(ROW_6)
 			.Concat(ROW_7)
 			.ToArray();
+
+		double left = Double.PositiveInfinity;
+		double right = Double.NegativeInfinity;
+		double top = Double.NegativeInfinity;
+		double bottom = Double.PositiveInfinity;
+		foreach (LightKey lightKey in LIGHT_KEYS) {
+			Circle lightCircle = lightKey.circle;
+
+			left = Math.Min(left, lightCircle.leftMost());
+			right = Math.Max(right, lightCircle.rightMost());
+			top = Math.Max(top, lightCircle.topMost());
+			bottom = Math.Min(bottom, lightCircle.bottomMost());
+		}
+
+		TOP_LEFT = new ImmutablePoint(left, top);
+		TOP_RIGHT = new ImmutablePoint(right, top);
+		BOTTOM_LEFT = new ImmutablePoint(left, bottom);
+		BOTTOM_RIGHT = new ImmutablePoint(right, bottom);
+
+		LONGEST_SIDE = Math.Max(
+			TOP_LEFT.distanceTo(TOP_RIGHT),
+			TOP_LEFT.distanceTo(BOTTOM_LEFT)
+		);
 	}
 
 	private static void forEachCondition(

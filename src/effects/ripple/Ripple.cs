@@ -32,7 +32,6 @@ class Ripple {
 		Circle boundingCircle = ring.clone();
 		boundingCircle.radius -= FADE_DISTANCE;
 
-		//TODO
 		return boundingCircle.contains(LightKeyManager.TOP_LEFT)
 			&& boundingCircle.contains(LightKeyManager.TOP_RIGHT)
 			&& boundingCircle.contains(LightKeyManager.BOTTOM_LEFT)
@@ -48,7 +47,7 @@ class Ripple {
 	}
 
 	public void expandRadius() {
-		double oneSecondDistance = LightKeyManager.TOTAL_WIDTH * (1 / SECONDS_TO_TRAVEL_WIDTH);
+		double oneSecondDistance = LightKeyManager.LONGEST_SIDE * (1 / SECONDS_TO_TRAVEL_WIDTH);
 		ring.radius += oneSecondDistance / AnimationManager.PERFECT_FPS;
 	}
 }
