@@ -4,7 +4,5 @@
 		KeyEventManager.onInitialise();
 
 		AnimationManager.onAnimate();
-
-		AnimationManager.onExit();
 	}
 }

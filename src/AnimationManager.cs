@@ -51,8 +51,4 @@ static class AnimationManager {
 
 		loopFrame();
 	}
-
-	public static void onExit() {
-		G.disconnect();
-	}
 }
