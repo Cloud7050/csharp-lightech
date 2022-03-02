@@ -8,8 +8,8 @@ static class EffectManager {
 		new EffectRipple(),
 	};
 
-	public static void onStart() {
-		foreach (Effect effect in EFFECTS) effect.onStart();
+	public static void onWake() {
+		foreach (Effect effect in EFFECTS) effect.onWake();
 	}
 
 	public static void onFrame() {

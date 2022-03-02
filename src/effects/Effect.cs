@@ -3,7 +3,7 @@ using H.Hooks;
 
 
 abstract class Effect {
-	public virtual void onStart() {}
+	public virtual void onWake() {}
 
 	public virtual void onFrame() {}
 
