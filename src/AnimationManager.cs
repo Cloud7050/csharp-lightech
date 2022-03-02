@@ -7,7 +7,9 @@ static class AnimationManager {
 
 	private static bool connected = false;
 
-	private static void awaitConnection() {
+	private static void awaitConnection(
+		bool firstConnection = false
+	) {
 		bool success = G.dummyCommand();
 		if (success) return;
 
@@ -18,6 +20,9 @@ static class AnimationManager {
 			if (success) {
 				Console.WriteLine(">>> Connected ✅");
 				connected = true;
+
+				if (!firstConnection) onWake();
+
 				return;
 			};
 
@@ -25,6 +30,10 @@ static class AnimationManager {
 			connected = false;
 			Thread.Sleep(CONNECTION_INTERVAL);
 		}
+	}
+
+	private static void onWake() {
+		EffectManager.onStart();
 	}
 
 	private static void loopFrame() {
@@ -51,11 +60,11 @@ static class AnimationManager {
 	}
 
 	public static void onInitialise() {
-		awaitConnection();
+		awaitConnection(true);
 	}
 
 	public static void onAnimate() {
-		EffectManager.onStart();
+		onWake();
 
 		loopFrame();
 	}
