@@ -26,11 +26,15 @@ static class G {
 	public static bool colourGlobally(
 		Colour colour
 	) {
-		return SDK.LogiLedSetLighting(
+		bool success = SDK.LogiLedSetLighting(
 			colour.getPercentageDimmedRed(),
 			colour.getPercentageDimmedGreen(),
 			colour.getPercentageDimmedBlue()
 		);
+
+		if (success) LightKeyManager.notifyGlobalColour(colour);
+
+		return success;
 	}
 
 	public static bool colour(

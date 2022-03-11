@@ -6,7 +6,7 @@ static class AnimationManager {
 
 	private static bool _isConnected = false;
 
-	public const double TARGET_FPS = 50;
+	public const double TARGET_FPS = 60;
 
 	private static void awaitConnection() {
 		bool success = G.dummyCommand();

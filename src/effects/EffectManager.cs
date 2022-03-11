@@ -14,6 +14,7 @@ static class EffectManager {
 
 	public static void onFrame() {
 		foreach (Effect effect in EFFECTS) effect.onFrame();
+		LightKeyManager.sendAllColours();
 	}
 
 	public static void onKeyDown(Key eventKey) {

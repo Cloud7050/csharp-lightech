@@ -29,10 +29,7 @@ class EffectRipple : Effect {
 				changingColour.alphaCompositeBehind(frontColour);
 			}
 
-			G.colour(
-				(GKey) lightKey.gKey!,
-				changingColour
-			);
+			lightKey.mergeUpcomingColour(changingColour);
 
 			return ForEach.VOID;
 		});

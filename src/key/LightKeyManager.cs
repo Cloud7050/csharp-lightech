@@ -624,4 +624,18 @@ static class LightKeyManager {
 			callback
 		);
 	}
+
+	public static void notifyGlobalColour(Colour colour) {
+		forEachWithGKey((LightKey lightKey) => {
+			lightKey.overwriteCurrentColour(colour);
+			return ForEach.VOID;
+		});
+	}
+
+	public static void sendAllColours() {
+		forEachWithGKey((LightKey lightKey) => {
+			lightKey.maySendColour();
+			return ForEach.VOID;
+		});
+	}
 }
