@@ -1,9 +1,9 @@
 class Colour {
-	public static readonly int MIN = 0x00;
-	public static readonly int LOW = 0x55;
-	public static readonly int MEDIUM = 0x80;
-	public static readonly int HIGH = 0xAA;
-	public static readonly int MAX = 0xFF;
+	public const int MIN = 0x00;
+	public const int LOW = 0x55;
+	public const int MEDIUM = 0x80;
+	public const int HIGH = 0xAA;
+	public const int MAX = 0xFF;
 
 	public static readonly Colour WHITE = new Colour(MAX);
 	public static readonly Colour LIME = new Colour(LOW, MAX, LOW);
@@ -20,16 +20,7 @@ class Colour {
 
 	public Colour(int component) : this(component, component, component) {}
 
-	public Colour(
-		int red,
-		int green,
-		int blue
-	) : this(
-		red,
-		green,
-		blue,
-		MAX
-	) {}
+	public Colour(int red, int green, int blue) : this(red, green, blue, MAX) {}
 
 	public Colour(
 		int _red,

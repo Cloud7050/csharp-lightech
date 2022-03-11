@@ -1,4 +1,4 @@
-class ImmutablePoint {
+sealed class ImmutablePoint {
 	public readonly double x;
 	public readonly double y;
 

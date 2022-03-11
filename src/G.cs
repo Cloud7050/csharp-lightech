@@ -1,19 +1,14 @@
-using S = LedCSharp.LogitechGSDK;
-using N = LedCSharp.keyboardNames;
+using LedCSharp;
 
 
 
 static class G {
-	public static bool connect(
-		string? name = "Lightech ☁"
-	) {
-		if (name == null) return S.LogiLedInit();
-
-		return S.LogiLedInitWithName(name);
+	public static bool connect() {
+		return SDK.LogiLedInitWithName("Lightech ☁");
 	}
 
 	public static void disconnect() {
-		S.LogiLedShutdown();
+		SDK.LogiLedShutdown();
 	}
 
 	public static void reconnect() {
@@ -23,7 +18,7 @@ static class G {
 
 	public static bool dummyCommand() {
 		return colour(
-			(N) 7050,
+			(GKey) 7050,
 			Colour.BLACK
 		);
 	}
@@ -31,7 +26,7 @@ static class G {
 	public static bool colourGlobally(
 		Colour colour
 	) {
-		return S.LogiLedSetLighting(
+		return SDK.LogiLedSetLighting(
 			colour.getPercentageDimmedRed(),
 			colour.getPercentageDimmedGreen(),
 			colour.getPercentageDimmedBlue()
@@ -39,10 +34,10 @@ static class G {
 	}
 
 	public static bool colour(
-		N keyName,
+		GKey keyName,
 		Colour colour
 	) {
-		return S.LogiLedSetLightingForKeyWithKeyName(
+		return SDK.LogiLedSetLightingForKeyWithKeyName(
 			keyName,
 			colour.getPercentageDimmedRed(),
 			colour.getPercentageDimmedGreen(),

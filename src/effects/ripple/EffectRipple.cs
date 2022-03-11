@@ -1,8 +1,5 @@
 using H.Hooks;
-
-
-
-using N = LedCSharp.keyboardNames;
+using LedCSharp;
 
 
 
@@ -33,10 +30,11 @@ class EffectRipple : Effect {
 			}
 
 			G.colour(
-				(N) lightKey.gKey!,
+				(GKey) lightKey.gKey!,
 				changingColour
 			);
-			return LightKeyManager.CONTINUE;
+
+			return ForEach.VOID;
 		});
 
 		for (int i = liveRipples.Count - 1; i >= 0; i--) {
@@ -49,14 +47,14 @@ class EffectRipple : Effect {
 
 	public override void onKeyDown(Key eventKey) {
 		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
-			if (eventKey != lightKey.eventKey) return LightKeyManager.CONTINUE;
+			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
 
 			pendingRipples.Add(
 				new Ripple(
 					lightKey.circle.centre
 				)
 			);
-			return LightKeyManager.CONTINUE;
+			return ForEach.BREAK;
 		});
 	}
 }

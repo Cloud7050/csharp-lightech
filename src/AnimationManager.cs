@@ -1,11 +1,12 @@
 static class AnimationManager {
-	public static readonly double TARGET_FPS = 50;
 	private static readonly TimeSpan FRAME_INTERVAL = TimeSpan.FromSeconds(1d / TARGET_FPS);
 	private static readonly TimeSpan MINIMUM_SLEEP = TimeSpan.FromMilliseconds(1);
 
 	private static readonly TimeSpan CONNECTION_INTERVAL = TimeSpan.FromSeconds(15);
 
-	private static bool connected = false;
+	private static bool _isConnected = false;
+
+	public const double TARGET_FPS = 50;
 
 	private static void awaitConnection() {
 		bool success = G.dummyCommand();
@@ -17,7 +18,7 @@ static class AnimationManager {
 
 			if (success) {
 				Console.WriteLine(">>> Connected ✅");
-				connected = true;
+				_isConnected = true;
 
 				EffectManager.onWake();
 
@@ -25,13 +26,13 @@ static class AnimationManager {
 			};
 
 			Console.WriteLine(">>> Connection Failed ⚠️");
-			connected = false;
+			_isConnected = false;
 			Thread.Sleep(CONNECTION_INTERVAL);
 		}
 	}
 
 	public static bool isConnected() {
-		return connected;
+		return _isConnected;
 	}
 
 	public static void onInitialise() {

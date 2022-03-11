@@ -1,8 +1,5 @@
 using H.Hooks;
-
-
-
-using N = LedCSharp.keyboardNames;
+using LedCSharp;
 
 
 
@@ -10,12 +7,12 @@ class LightKey {
 	public readonly Circle circle;
 
 	public readonly Key? eventKey;
-	public readonly N? gKey;
+	public readonly GKey? gKey;
 
 	public LightKey(
 		ImmutablePoint centre,
 		Key? _eventKey,
-		N? _gKey,
+		GKey? _gKey,
 		double radius = 0.25
 	) {
 		circle = new Circle(

@@ -1,19 +1,16 @@
 class Ripple {
-	private static readonly double FADE_DISTANCE = 1.5;
+	private const double FADE_DISTANCE = 1.5;
 
-	private static readonly double SECONDS_TO_TRAVEL_WIDTH = 2;
+	private const double SECONDS_TO_TRAVEL_WIDTH = 2;
 
 	private Circle ring;
 
 	private Colour colour;
 
-	public Ripple(
-		ImmutablePoint centre,
-		Colour? _colour = null
-	) {
+	public Ripple(ImmutablePoint centre) {
 		ring = new Circle(centre);
 
-		colour = _colour ?? ColourStream.nextColour();
+		colour = ColourStream.nextColour();
 	}
 
 	private double alphaIntervalFor(Circle lightCircle) {
@@ -47,7 +44,7 @@ class Ripple {
 	}
 
 	public void expandRadius() {
-		double oneSecondDistance = LightKeyManager.LONGEST_SIDE * (1 / SECONDS_TO_TRAVEL_WIDTH);
+		double oneSecondDistance = LightKeyManager.WIDTH * (1d / SECONDS_TO_TRAVEL_WIDTH);
 		ring.radius += oneSecondDistance / AnimationManager.TARGET_FPS;
 	}
 }

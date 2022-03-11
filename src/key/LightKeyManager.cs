@@ -1,22 +1,28 @@
 using H.Hooks;
-
-
-
-using N = LedCSharp.keyboardNames;
+using LedCSharp;
 
 
 
 static class LightKeyManager {
-	private static readonly double KEY_SIZE = 1;
-	private static readonly double TAB_SIZE = KEY_SIZE * 1.5;
-	private static readonly double CAPSIZE = KEY_SIZE * 1.75;
-	private static readonly double LEFT_SHIFT_SIZE = KEY_SIZE * 2.25;
-	private static readonly double WINDOWS_SIZE = KEY_SIZE * 1.25;
-	private static readonly double SPACE_SIZE = KEY_SIZE * 5.75;
-	private static readonly double RIGHT_SHIFT_SIZE = KEY_SIZE * 2.75;
+	private const double CONTROL_SIZE = KEY_SIZE * 1.5;
+	private const double TAB_SIZE = CONTROL_SIZE;
+	private const double BACKSLASH_SIZE = CONTROL_SIZE;
 
-	private static readonly double GAP_SIZE = KEY_SIZE / 3;
-	private static readonly double FUNCTION_GAP_SIZE = (2 * KEY_SIZE) / 3;
+	private const double WINDOWS_SIZE = KEY_SIZE * 1.25;
+	private const double ALT_SIZE = WINDOWS_SIZE;
+	private const double APPS_SIZE = WINDOWS_SIZE;
+
+	private const double SPACE_SIZE = KEY_SIZE * 5.75;
+
+	private const double LEFT_SHIFT_SIZE = KEY_SIZE * 2.25;
+	private const double ENTER_SIZE = LEFT_SHIFT_SIZE;
+
+	private const double RIGHT_SHIFT_SIZE = KEY_SIZE * 2.75;
+
+	private const double CAPSIZE = KEY_SIZE * 1.75;
+
+	private const double GAP_SIZE = KEY_SIZE / 3d;
+	private const double FUNCTION_GAP_SIZE = (2 * KEY_SIZE) / 3d;
 
 	private static readonly LightKey[] ROW_1;
 	private static readonly LightKey[] ROW_2;
@@ -28,18 +34,17 @@ static class LightKeyManager {
 
 	private static readonly LightKey[] LIGHT_KEYS;
 
+	public const double KEY_SIZE = 1;
+
 	public static readonly ImmutablePoint TOP_LEFT;
 	public static readonly ImmutablePoint TOP_RIGHT;
 	public static readonly ImmutablePoint BOTTOM_LEFT;
 	public static readonly ImmutablePoint BOTTOM_RIGHT;
 
-	public static readonly double LONGEST_SIDE;
-
-	public static readonly bool CONTINUE = true;
-	public static readonly bool BREAK = false;
+	public static readonly double WIDTH;
 
 	static LightKeyManager() {
-		double row1Y = KEY_SIZE / 2;
+		double row1Y = KEY_SIZE / 2d;
 		double row2Y = row1Y + KEY_SIZE;
 		double row3Y = row2Y + KEY_SIZE;
 		double row4Y = row3Y + KEY_SIZE;
@@ -57,478 +62,478 @@ static class LightKeyManager {
 
 		ROW_1 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row1X += KEY_SIZE / 2,
+				row1X += KEY_SIZE / 2d,
 				row1Y
-			), null, N.G_5),
+			), null, GKey.G_5),
 
 			new LightKey(new ImmutablePoint(
-				row1X += (KEY_SIZE / 2) + GAP_SIZE + (TAB_SIZE / 2),
+				row1X += (KEY_SIZE / 2d) + GAP_SIZE + (CONTROL_SIZE / 2d),
 				row1Y
-			), Key.LeftControl, N.LEFT_CONTROL),
+			), Key.LeftControl, GKey.LEFT_CONTROL),
 			new LightKey(new ImmutablePoint(
-				row1X += (TAB_SIZE / 2) + (WINDOWS_SIZE / 2),
+				row1X += (CONTROL_SIZE / 2d) + (WINDOWS_SIZE / 2d),
 				row1Y
-			), Key.LeftWindows, N.LEFT_WINDOWS),
+			), Key.LeftWindows, GKey.LEFT_WINDOWS),
 			new LightKey(new ImmutablePoint(
-				row1X += WINDOWS_SIZE,
+				row1X += (WINDOWS_SIZE / 2d) + (ALT_SIZE / 2d),
 				row1Y
-			), Key.LeftAlt, N.LEFT_ALT),
+			), Key.LeftAlt, GKey.LEFT_ALT),
 			new LightKey(new ImmutablePoint(
-				row1X += (WINDOWS_SIZE / 2) + (SPACE_SIZE / 2),
+				row1X += (ALT_SIZE / 2d) + (SPACE_SIZE / 2d),
 				row1Y
-			), Key.Space, N.SPACE),
+			), Key.Space, GKey.SPACE),
 			new LightKey(new ImmutablePoint(
-				row1X += (SPACE_SIZE / 2) + (WINDOWS_SIZE / 2),
+				row1X += (SPACE_SIZE / 2d) + (ALT_SIZE / 2d),
 				row1Y
-			), Key.RightAlt, N.RIGHT_ALT),
+			), Key.RightAlt, GKey.RIGHT_ALT),
 			new LightKey(new ImmutablePoint(
-				row1X += WINDOWS_SIZE,
+				row1X += (ALT_SIZE / 2d) + (WINDOWS_SIZE / 2d),
 				row1Y
-			), Key.RightWindows, N.RIGHT_WINDOWS),
+			), Key.RightWindows, GKey.RIGHT_WINDOWS),
 			new LightKey(new ImmutablePoint(
-				row1X += WINDOWS_SIZE,
+				row1X += (WINDOWS_SIZE / 2d) + (APPS_SIZE / 2d),
 				row1Y
-			), Key.Apps, N.APPLICATION_SELECT),
+			), Key.Apps, GKey.APPLICATION_SELECT),
 			new LightKey(new ImmutablePoint(
-				row1X += (WINDOWS_SIZE / 2) + (TAB_SIZE / 2),
+				row1X += (APPS_SIZE / 2d) + (CONTROL_SIZE / 2d),
 				row1Y
-			), Key.RightControl, N.RIGHT_CONTROL),
+			), Key.RightControl, GKey.RIGHT_CONTROL),
 
 			new LightKey(new ImmutablePoint(
-				row1X += (TAB_SIZE / 2) + GAP_SIZE + (KEY_SIZE / 2),
+				row1X += (CONTROL_SIZE / 2d) + GAP_SIZE + (KEY_SIZE / 2d),
 				row1Y
-			), Key.Left, N.ARROW_LEFT),
+			), Key.Left, GKey.ARROW_LEFT),
 			new LightKey(new ImmutablePoint(
 				row1X += KEY_SIZE,
 				row1Y
-			), Key.Down, N.ARROW_DOWN),
+			), Key.Down, GKey.ARROW_DOWN),
 			new LightKey(new ImmutablePoint(
 				row1X += KEY_SIZE,
 				row1Y
-			), Key.Right, N.ARROW_RIGHT),
+			), Key.Right, GKey.ARROW_RIGHT),
 
 			new LightKey(new ImmutablePoint(
 				row1X += (KEY_SIZE * 1.5) + GAP_SIZE,
 				row1Y
-			), Key.NumPad0, N.NUM_ZERO),
+			), Key.NumPad0, GKey.NUM_ZERO),
 			new LightKey(new ImmutablePoint(
 				row1X += KEY_SIZE * 1.5,
 				row1Y
-			), Key.Decimal, N.NUM_PERIOD),
+			), Key.Decimal, GKey.NUM_PERIOD),
 			new LightKey(new ImmutablePoint(
 				row1X += KEY_SIZE,
-				row1Y + (KEY_SIZE / 2)
-			), null, N.NUM_ENTER)
+				row1Y + (KEY_SIZE / 2d)
+			), null, GKey.NUM_ENTER)
 		};
 
 		ROW_2 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row2X += KEY_SIZE / 2,
+				row2X += KEY_SIZE / 2d,
 				row2Y
-			), null, N.G_4),
+			), null, GKey.G_4),
 
 			new LightKey(new ImmutablePoint(
-				row2X += (KEY_SIZE / 2) + GAP_SIZE + (LEFT_SHIFT_SIZE / 2),
+				row2X += (KEY_SIZE / 2d) + GAP_SIZE + (LEFT_SHIFT_SIZE / 2d),
 				row2Y
-			), Key.LeftShift, N.LEFT_SHIFT),
+			), Key.LeftShift, GKey.LEFT_SHIFT),
 			new LightKey(new ImmutablePoint(
-				row2X += (LEFT_SHIFT_SIZE / 2) + (KEY_SIZE / 2),
+				row2X += (LEFT_SHIFT_SIZE / 2d) + (KEY_SIZE / 2d),
 				row2Y
-			), Key.Z, N.Z),
-			new LightKey(new ImmutablePoint(
-				row2X += KEY_SIZE,
-				row2Y
-			), Key.X, N.X),
+			), Key.Z, GKey.Z),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.C, N.C),
+			), Key.X, GKey.X),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.V, N.V),
+			), Key.C, GKey.C),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.B, N.B),
+			), Key.V, GKey.V),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.N, N.N),
+			), Key.B, GKey.B),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.M, N.M),
+			), Key.N, GKey.N),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.OemComma, N.COMMA),
+			), Key.M, GKey.M),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.OemPeriod, N.PERIOD),
+			), Key.OemComma, GKey.COMMA),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.OemQuestion, N.FORWARD_SLASH),
+			), Key.OemPeriod, GKey.PERIOD),
 			new LightKey(new ImmutablePoint(
-				row2X += (KEY_SIZE / 2) + (RIGHT_SHIFT_SIZE / 2),
+				row2X += KEY_SIZE,
 				row2Y
-			), Key.RightShift, N.RIGHT_SHIFT),
+			), Key.OemQuestion, GKey.FORWARD_SLASH),
+			new LightKey(new ImmutablePoint(
+				row2X += (KEY_SIZE / 2d) + (RIGHT_SHIFT_SIZE / 2d),
+				row2Y
+			), Key.RightShift, GKey.RIGHT_SHIFT),
 
 			new LightKey(new ImmutablePoint(
-				row2X += (RIGHT_SHIFT_SIZE / 2) + GAP_SIZE + (KEY_SIZE * 1.5),
+				row2X += (RIGHT_SHIFT_SIZE / 2d) + GAP_SIZE + (KEY_SIZE * 1.5),
 				row2Y
-			), Key.Up, N.ARROW_UP),
+			), Key.Up, GKey.ARROW_UP),
 
 			new LightKey(new ImmutablePoint(
 				row2X += (KEY_SIZE * 2) + GAP_SIZE,
 				row2Y
-			), Key.NumPad1, N.NUM_ONE),
+			), Key.NumPad1, GKey.NUM_ONE),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.NumPad2, N.NUM_TWO),
+			), Key.NumPad2, GKey.NUM_TWO),
 			new LightKey(new ImmutablePoint(
 				row2X += KEY_SIZE,
 				row2Y
-			), Key.NumPad3, N.NUM_THREE)
+			), Key.NumPad3, GKey.NUM_THREE)
 		};
 
 		ROW_3 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row3X += KEY_SIZE / 2,
+				row3X += KEY_SIZE / 2d,
 				row3Y
-			), null, N.G_3),
+			), null, GKey.G_3),
 
 			new LightKey(new ImmutablePoint(
-				row3X += (KEY_SIZE / 2) + GAP_SIZE + (CAPSIZE / 2),
+				row3X += (KEY_SIZE / 2d) + GAP_SIZE + (CAPSIZE / 2d),
 				row3Y
-			), Key.Escape, N.CAPS_LOCK),
+			), Key.Escape, GKey.CAPS_LOCK),
 			new LightKey(new ImmutablePoint(
-				row3X += (CAPSIZE / 2) + (KEY_SIZE / 2),
+				row3X += (CAPSIZE / 2d) + (KEY_SIZE / 2d),
 				row3Y
-			), Key.A, N.A),
-			new LightKey(new ImmutablePoint(
-				row3X += KEY_SIZE,
-				row3Y
-			), Key.S, N.S),
+			), Key.A, GKey.A),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.D, N.D),
+			), Key.S, GKey.S),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.F, N.F),
+			), Key.D, GKey.D),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.G, N.G),
+			), Key.F, GKey.F),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.H, N.H),
+			), Key.G, GKey.G),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.J, N.J),
+			), Key.H, GKey.H),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.K, N.K),
+			), Key.J, GKey.J),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.L, N.L),
+			), Key.K, GKey.K),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.OemSemicolon, N.SEMICOLON),
+			), Key.L, GKey.L),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.OemQuotes, N.APOSTROPHE),
+			), Key.OemSemicolon, GKey.SEMICOLON),
 			new LightKey(new ImmutablePoint(
-				row3X += (KEY_SIZE / 2) + (LEFT_SHIFT_SIZE / 2),
+				row3X += KEY_SIZE,
 				row3Y
-			), Key.Enter, N.ENTER),
+			), Key.OemQuotes, GKey.APOSTROPHE),
+			new LightKey(new ImmutablePoint(
+				row3X += (KEY_SIZE / 2d) + (ENTER_SIZE / 2d),
+				row3Y
+			), Key.Enter, GKey.ENTER),
 
 			new LightKey(new ImmutablePoint(
-				row3X += (LEFT_SHIFT_SIZE / 2) + (GAP_SIZE * 2) + (KEY_SIZE * 3.5),
+				row3X += (ENTER_SIZE / 2d) + (GAP_SIZE * 2) + (KEY_SIZE * 3.5),
 				row3Y
-			), Key.NumPad4, N.NUM_FOUR),
+			), Key.NumPad4, GKey.NUM_FOUR),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.NumPad5, N.NUM_FIVE),
+			), Key.NumPad5, GKey.NUM_FIVE),
 			new LightKey(new ImmutablePoint(
 				row3X,
 				row3Y
-			), Key.Clear, N.NUM_FIVE),
+			), Key.Clear, GKey.NUM_FIVE),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
 				row3Y
-			), Key.NumPad6, N.NUM_SIX),
+			), Key.NumPad6, GKey.NUM_SIX),
 			new LightKey(new ImmutablePoint(
 				row3X += KEY_SIZE,
-				row3Y + (KEY_SIZE / 2)
-			), Key.Add, N.NUM_PLUS)
+				row3Y + (KEY_SIZE / 2d)
+			), Key.Add, GKey.NUM_PLUS)
 		};
 
 		ROW_4 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row4X += KEY_SIZE / 2,
+				row4X += KEY_SIZE / 2d,
 				row4Y
-			), null, N.G_2),
+			), null, GKey.G_2),
 
 			new LightKey(new ImmutablePoint(
-				row4X += (KEY_SIZE / 2) + GAP_SIZE + (TAB_SIZE / 2),
+				row4X += (KEY_SIZE / 2d) + GAP_SIZE + (TAB_SIZE / 2d),
 				row4Y
-			), Key.Tab, N.TAB),
+			), Key.Tab, GKey.TAB),
 			new LightKey(new ImmutablePoint(
-				row4X += (TAB_SIZE / 2) + (KEY_SIZE / 2),
+				row4X += (TAB_SIZE / 2d) + (KEY_SIZE / 2d),
 				row4Y
-			), Key.Q, N.Q),
-			new LightKey(new ImmutablePoint(
-				row4X += KEY_SIZE,
-				row4Y
-			), Key.W, N.W),
+			), Key.Q, GKey.Q),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.E, N.E),
+			), Key.W, GKey.W),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.R, N.R),
+			), Key.E, GKey.E),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.T, N.T),
+			), Key.R, GKey.R),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.Y, N.Y),
+			), Key.T, GKey.T),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.U, N.U),
+			), Key.Y, GKey.Y),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.I, N.I),
+			), Key.U, GKey.U),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.O, N.O),
+			), Key.I, GKey.I),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.P, N.P),
+			), Key.O, GKey.O),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.OemOpenBrackets, N.OPEN_BRACKET),
+			), Key.P, GKey.P),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.OemCloseBrackets, N.CLOSE_BRACKET),
+			), Key.OemOpenBrackets, GKey.OPEN_BRACKET),
 			new LightKey(new ImmutablePoint(
-				row4X += (KEY_SIZE / 2) + (TAB_SIZE / 2),
+				row4X += KEY_SIZE,
 				row4Y
-			), Key.OemPipe, N.BACKSLASH),
+			), Key.OemCloseBrackets, GKey.CLOSE_BRACKET),
+			new LightKey(new ImmutablePoint(
+				row4X += (KEY_SIZE / 2d) + (BACKSLASH_SIZE / 2d),
+				row4Y
+			), Key.OemPipe, GKey.BACKSLASH),
 
 			new LightKey(new ImmutablePoint(
-				row4X += (TAB_SIZE / 2) + GAP_SIZE + (KEY_SIZE / 2),
+				row4X += (BACKSLASH_SIZE / 2d) + GAP_SIZE + (KEY_SIZE / 2d),
 				row4Y
-			), Key.Delete, N.KEYBOARD_DELETE),
+			), Key.Delete, GKey.KEYBOARD_DELETE),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.End, N.END),
+			), Key.End, GKey.END),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.PageDown, N.PAGE_DOWN),
+			), Key.PageDown, GKey.PAGE_DOWN),
 
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE + GAP_SIZE,
 				row4Y
-			), Key.NumPad7, N.NUM_SEVEN),
+			), Key.NumPad7, GKey.NUM_SEVEN),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.NumPad8, N.NUM_EIGHT),
+			), Key.NumPad8, GKey.NUM_EIGHT),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.NumPad9, N.NUM_NINE)
+			), Key.NumPad9, GKey.NUM_NINE)
 		};
 
 		ROW_5 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row5X += KEY_SIZE / 2,
+				row5X += KEY_SIZE / 2d,
 				row5Y
-			), null, N.G_1),
+			), null, GKey.G_1),
 
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE + GAP_SIZE,
 				row5Y
-			), Key.OemTilde, N.TILDE),
+			), Key.OemTilde, GKey.TILDE),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D1, N.ONE),
+			), Key.D1, GKey.ONE),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D2, N.TWO),
+			), Key.D2, GKey.TWO),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D3, N.THREE),
+			), Key.D3, GKey.THREE),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D4, N.FOUR),
+			), Key.D4, GKey.FOUR),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D5, N.FIVE),
+			), Key.D5, GKey.FIVE),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D6, N.SIX),
+			), Key.D6, GKey.SIX),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D7, N.SEVEN),
+			), Key.D7, GKey.SEVEN),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D8, N.EIGHT),
+			), Key.D8, GKey.EIGHT),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D9, N.NINE),
+			), Key.D9, GKey.NINE),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.D0, N.ZERO),
+			), Key.D0, GKey.ZERO),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.OemMinus, N.MINUS),
+			), Key.OemMinus, GKey.MINUS),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.OemPlus, N.EQUALS),
+			), Key.OemPlus, GKey.EQUALS),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE * 1.5,
 				row5Y
-			), Key.Back, N.BACKSPACE),
+			), Key.Back, GKey.BACKSPACE),
 
 			new LightKey(new ImmutablePoint(
 				row5X += (KEY_SIZE * 1.5) + GAP_SIZE,
 				row5Y
-			), Key.Insert, N.INSERT),
+			), Key.Insert, GKey.INSERT),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.Home, N.HOME),
+			), Key.Home, GKey.HOME),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.PageUp, N.PAGE_UP),
+			), Key.PageUp, GKey.PAGE_UP),
 
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE + GAP_SIZE,
 				row5Y
-			), Key.NumLock, N.NUM_LOCK),
+			), Key.NumLock, GKey.NUM_LOCK),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.Divide, N.NUM_SLASH),
+			), Key.Divide, GKey.NUM_SLASH),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.Multiply, N.NUM_ASTERISK),
+			), Key.Multiply, GKey.NUM_ASTERISK),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.Subtract, N.NUM_MINUS)
+			), Key.Subtract, GKey.NUM_MINUS)
 		};
 
 		ROW_6 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
 				row6X += (KEY_SIZE * 1.5) + GAP_SIZE,
 				row6Y
-			), Key.CapsLock, N.ESC),
+			), Key.CapsLock, GKey.ESC),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + FUNCTION_GAP_SIZE,
 				row6Y
-			), Key.F1, N.F1),
+			), Key.F1, GKey.F1),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F2, N.F2),
+			), Key.F2, GKey.F2),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F3, N.F3),
+			), Key.F3, GKey.F3),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F4, N.F4),
+			), Key.F4, GKey.F4),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + FUNCTION_GAP_SIZE,
 				row6Y
-			), Key.F5, N.F5),
+			), Key.F5, GKey.F5),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F6, N.F6),
+			), Key.F6, GKey.F6),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F7, N.F7),
+			), Key.F7, GKey.F7),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F8, N.F8),
+			), Key.F8, GKey.F8),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + FUNCTION_GAP_SIZE,
 				row6Y
-			), Key.F9, N.F9),
+			), Key.F9, GKey.F9),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F10, N.F10),
+			), Key.F10, GKey.F10),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F11, N.F11),
+			), Key.F11, GKey.F11),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.F12, N.F12),
+			), Key.F12, GKey.F12),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + GAP_SIZE,
 				row6Y
-			), Key.PrintScreen, N.PRINT_SCREEN),
+			), Key.PrintScreen, GKey.PRINT_SCREEN),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.Scroll, N.SCROLL_LOCK),
+			), Key.Scroll, GKey.SCROLL_LOCK),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.Pause, N.PAUSE_BREAK),
+			), Key.Pause, GKey.PAUSE_BREAK),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + GAP_SIZE,
@@ -550,17 +555,17 @@ static class LightKeyManager {
 
 		ROW_7 = new LightKey[] {
 			new LightKey(new ImmutablePoint(
-				row7X += KEY_SIZE / 2,
+				row7X += KEY_SIZE / 2d,
 				row7Y
-			), null, N.G_LOGO, 1),
+			), null, GKey.G_LOGO, 1),
 
 			new LightKey(new ImmutablePoint(
 				row7X += (KEY_SIZE * 20.5) + (GAP_SIZE * 3),
-				row7Y + (KEY_SIZE / 2)
+				row7Y + (KEY_SIZE / 2d)
 			), Key.VolumeUp, null),
 			new LightKey(new ImmutablePoint(
 				row7X += (KEY_SIZE * 20.5) + (GAP_SIZE * 3),
-				row7Y + (KEY_SIZE / 2)
+				row7Y + (KEY_SIZE / 2d)
 			), Key.VolumeDown, null)
 		};
 
@@ -591,33 +596,29 @@ static class LightKeyManager {
 		BOTTOM_LEFT = new ImmutablePoint(left, bottom);
 		BOTTOM_RIGHT = new ImmutablePoint(right, bottom);
 
-		LONGEST_SIDE = Math.Max(
-			TOP_LEFT.distanceTo(TOP_RIGHT),
-			TOP_LEFT.distanceTo(BOTTOM_LEFT)
-		);
+		WIDTH = TOP_LEFT.distanceTo(TOP_RIGHT);
 	}
 
 	private static void forEachCondition(
 		Func<LightKey, bool> condition,
-		Func<LightKey, bool> callback
+		Func<LightKey, ForEach> callback
 	) {
 		foreach (LightKey lightKey in LIGHT_KEYS) {
 			if (!condition(lightKey)) continue;
 
-			// If not callback, break
-			bool action = callback(lightKey);
-			if (action == BREAK) break;
+			ForEach response = callback(lightKey);
+			if (response == ForEach.BREAK) break;
 		}
 	}
 
-	public static void forEachWithEventKey(Func<LightKey, bool> callback) {
+	public static void forEachWithEventKey(Func<LightKey, ForEach> callback) {
 		forEachCondition(
 			(LightKey lightKey) => lightKey.eventKey != null,
 			callback
 		);
 	}
 
-	public static void forEachWithGKey(Func<LightKey, bool> callback) {
+	public static void forEachWithGKey(Func<LightKey, ForEach> callback) {
 		forEachCondition(
 			(LightKey lightKey) => lightKey.gKey != null,
 			callback
