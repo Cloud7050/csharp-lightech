@@ -27,7 +27,7 @@ static class AnimationManager {
 
 			Console.WriteLine(">>> Connection Failed ⚠️");
 			_isConnected = false;
-			await Task.Delay(CONNECTION_INTERVAL);
+			await Waiter.wait(CONNECTION_INTERVAL);
 		}
 	}
 
@@ -51,7 +51,7 @@ static class AnimationManager {
 			TimeSpan busyTimespan = TimeSpan.FromTicks(endTicks - startTicks);
 			TimeSpan remainingSleep = FRAME_INTERVAL.Subtract(busyTimespan);
 
-			await Task.Delay(
+			await Waiter.wait(
 				TimeSpan.Compare(remainingSleep, MINIMUM_SLEEP) > 0
 					? remainingSleep
 					: MINIMUM_SLEEP
