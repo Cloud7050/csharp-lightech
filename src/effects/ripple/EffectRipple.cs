@@ -10,15 +10,23 @@ class EffectRipple : Effect {
 			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
 
 			ripples.Add(
-				new BigRipple(
-					lightKey.circle.centre
-				)
+				new BigRipple(lightKey)
 			);
 			return ForEach.BREAK;
 		});
 	}
 
+	public override void onKeyUp(Key eventKey) {
+		foreach (Ripple ripple in ripples) {
+			if (ripple.isForEventKey(eventKey)) ripple.onThisKeyUp();
+		}
+	}
+
 	public override void onFrame() {
+		foreach (Ripple ripple in ripples) {
+			ripple.onFrameStart();
+		}
+
 		LightKeyManager.forEachWithGKey((LightKey lightKey) => {
 			Colour changingColour = new Colour(
 				Colour.MAX,

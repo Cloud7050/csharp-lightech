@@ -3,7 +3,7 @@ class BigRipple : Ripple {
 
 	private const double SECONDS_TO_TRAVEL_WIDTH = 1;
 
-	public BigRipple(ImmutablePoint centre) : base(centre) {}
+	public BigRipple(LightKey lightKey) : base(lightKey) {}
 
 	private double alphaIntervalFor(Circle lightCircle) {
 		double ringToLightCentre = ring.circumferenceDistanceTo(lightCircle.centre);
