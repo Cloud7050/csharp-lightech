@@ -1,5 +1,4 @@
 using H.Hooks;
-using LedCSharp;
 
 
 
@@ -11,7 +10,7 @@ class EffectRipple : Effect {
 			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
 
 			ripples.Add(
-				new Ripple(
+				new BigRipple(
 					lightKey.circle.centre
 				)
 			);
@@ -28,7 +27,7 @@ class EffectRipple : Effect {
 				Colour.MEDIUM
 			); // Faded white
 			foreach (Ripple ripple in ripples) {
-				Colour frontColour = ripple.newColourFor(lightKey);
+				Colour frontColour = ripple.onGetColour(lightKey);
 				if (frontColour.alpha == 0) continue;
 
 				changingColour.alphaCompositeBehind(frontColour);
@@ -42,8 +41,8 @@ class EffectRipple : Effect {
 		for (int i = ripples.Count - 1; i >= 0; i--) {
 			Ripple ripple = ripples[i];
 
-			ripple.expandRadius();
-			if (ripple.exceedsKeyboard()) ripples.RemoveAt(i);
+			ripple.onFrameEnd();
+			if (ripple.onCheckRemove()) ripples.RemoveAt(i);
 		}
 	}
 }
