@@ -564,7 +564,7 @@ static class LightKeyManager {
 				row7Y + (KEY_SIZE / 2d)
 			), Key.VolumeUp, null),
 			new LightKey(new ImmutablePoint(
-				row7X += (KEY_SIZE * 20.5) + (GAP_SIZE * 3),
+				row7X,
 				row7Y + (KEY_SIZE / 2d)
 			), Key.VolumeDown, null)
 		};
