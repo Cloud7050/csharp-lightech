@@ -8,7 +8,7 @@ static class AnimationManager {
 
 	public const double TARGET_FPS = 60;
 
-	private static void awaitConnection() {
+	private static async Task awaitConnection() {
 		bool success = G.dummyCommand();
 		if (success) return;
 
@@ -27,7 +27,7 @@ static class AnimationManager {
 
 			Console.WriteLine(">>> Connection Failed ⚠️");
 			_isConnected = false;
-			Thread.Sleep(CONNECTION_INTERVAL);
+			await Task.Delay(CONNECTION_INTERVAL);
 		}
 	}
 
@@ -35,14 +35,14 @@ static class AnimationManager {
 		return _isConnected;
 	}
 
-	public static void onInitialise() {
-		awaitConnection();
+	public static async Task onInitialise() {
+		await awaitConnection();
 	}
 
-	public static void onAnimate() {
+	public static async Task onAnimate() {
 		// Loop frames
 		while (true) {
-			awaitConnection();
+			await awaitConnection();
 
 			long startTicks = DateTime.Now.Ticks;
 			EffectManager.onFrame();
@@ -51,7 +51,7 @@ static class AnimationManager {
 			TimeSpan busyTimespan = TimeSpan.FromTicks(endTicks - startTicks);
 			TimeSpan remainingSleep = FRAME_INTERVAL.Subtract(busyTimespan);
 
-			Thread.Sleep(
+			await Task.Delay(
 				TimeSpan.Compare(remainingSleep, MINIMUM_SLEEP) > 0
 					? remainingSleep
 					: MINIMUM_SLEEP

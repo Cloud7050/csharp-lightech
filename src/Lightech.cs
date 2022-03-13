@@ -1,8 +1,8 @@
 ﻿static class Lightech {
-	public static void Main(string[] args) {
-		AnimationManager.onInitialise();
+	public static async Task Main(string[] args) {
+		await AnimationManager.onInitialise();
 		KeyEventManager.onInitialise();
 
-		AnimationManager.onAnimate();
+		await AnimationManager.onAnimate();
 	}
 }
