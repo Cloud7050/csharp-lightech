@@ -4,14 +4,13 @@ using LedCSharp;
 
 
 class EffectRipple : Effect {
-	private static List<Ripple> pendingRipples = new List<Ripple>();
-	private static List<Ripple> liveRipples = new List<Ripple>();
+	private static List<Ripple> ripples = new List<Ripple>();
 
 	public override void onKeyDown(Key eventKey) {
 		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
 			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
 
-			pendingRipples.Add(
+			ripples.Add(
 				new Ripple(
 					lightKey.circle.centre
 				)
@@ -21,13 +20,6 @@ class EffectRipple : Effect {
 	}
 
 	public override void onFrame() {
-		while (pendingRipples.Count > 0) {
-			Ripple ripple = pendingRipples[0];
-
-			pendingRipples.RemoveAt(0);
-			liveRipples.Add(ripple);
-		}
-
 		LightKeyManager.forEachWithGKey((LightKey lightKey) => {
 			Colour changingColour = new Colour(
 				Colour.MAX,
@@ -35,7 +27,7 @@ class EffectRipple : Effect {
 				Colour.MAX,
 				Colour.MEDIUM
 			); // Faded white
-			foreach (Ripple ripple in liveRipples) {
+			foreach (Ripple ripple in ripples) {
 				Colour frontColour = ripple.newColourFor(lightKey);
 				if (frontColour.alpha == 0) continue;
 
@@ -47,11 +39,11 @@ class EffectRipple : Effect {
 			return ForEach.VOID;
 		});
 
-		for (int i = liveRipples.Count - 1; i >= 0; i--) {
-			Ripple ripple = liveRipples[i];
+		for (int i = ripples.Count - 1; i >= 0; i--) {
+			Ripple ripple = ripples[i];
 
 			ripple.expandRadius();
-			if (ripple.exceedsKeyboard()) liveRipples.RemoveAt(i);
+			if (ripple.exceedsKeyboard()) ripples.RemoveAt(i);
 		}
 	}
 }
