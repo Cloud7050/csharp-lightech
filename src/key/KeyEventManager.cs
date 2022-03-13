@@ -1,55 +1,21 @@
+using System.Collections.Concurrent;
 using H.Hooks;
 
 
 
 static class KeyEventManager {
-	private static readonly List<Key> IGNORED_KEYS = new List<Key> {
-		Key.Shift,
-		Key.Control,
-		Key.Alt
-	};
-
-	private static List<Key> downKeys = new List<Key>();
-
-	private static bool testIgnore(Key eventKey) {
-		bool ignore = IGNORED_KEYS.Contains(eventKey);
-		if (ignore) Console.WriteLine($">>> Ignore: {eventKey}");
-		return ignore;
-	}
+	private static BlockingCollection<ImmutableKeyEvent> keyEvents = new BlockingCollection<ImmutableKeyEvent>();
 
 	private static void downHandler(object? sender, KeyboardEventArgs data) {
-		Console.WriteLine($">>> Raw Down: {data}");
-
-		foreach (Key eventKey in data.Keys.Values) {
-			if (testIgnore(eventKey)) continue;
-
-			if (downKeys.Contains(eventKey)) {
-				Console.WriteLine($">>> Already Down: {eventKey}");
-				continue;
-			};
-
-			downKeys.Add(eventKey);
-			Console.WriteLine($">>> Add: {eventKey}");
-
-			EffectManager.onKeyDown(eventKey);
-			Console.WriteLine($">>> Fire Down: {eventKey}");
-		}
+		keyEvents.Add(
+			new ImmutableKeyEvent(true, data)
+		);
 	}
 
 	private static void upHandler(object? sender, KeyboardEventArgs data) {
-		Console.WriteLine($">>> Raw Up: {data}");
-
-		foreach (Key eventKey in data.Keys.Values) {
-			if (testIgnore(eventKey)) continue;
-
-			EffectManager.onKeyUp(eventKey);
-			Console.WriteLine($">>> Fire Up: {eventKey}");
-
-			while (downKeys.Contains(eventKey)) {
-				downKeys.Remove(eventKey);
-				Console.WriteLine($">>> Remove: {eventKey}");
-			}
-		}
+		keyEvents.Add(
+			new ImmutableKeyEvent(false, data)
+		);
 	}
 
 	public static void onInitialise() {
@@ -59,5 +25,13 @@ static class KeyEventManager {
 		hook.Up += upHandler;
 
 		hook.Start();
+	}
+
+	// This is fine
+	public static void onFire() {
+		ImmutableKeyEvent? keyEvent = null;
+		while (keyEvents.TryTake(out keyEvent)) {
+			keyEvent.run();
+		}
 	}
 }

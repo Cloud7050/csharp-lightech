@@ -7,6 +7,19 @@ class EffectRipple : Effect {
 	private static List<Ripple> pendingRipples = new List<Ripple>();
 	private static List<Ripple> liveRipples = new List<Ripple>();
 
+	public override void onKeyDown(Key eventKey) {
+		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
+			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
+
+			pendingRipples.Add(
+				new Ripple(
+					lightKey.circle.centre
+				)
+			);
+			return ForEach.BREAK;
+		});
+	}
+
 	public override void onFrame() {
 		while (pendingRipples.Count > 0) {
 			Ripple ripple = pendingRipples[0];
@@ -40,18 +53,5 @@ class EffectRipple : Effect {
 			ripple.expandRadius();
 			if (ripple.exceedsKeyboard()) liveRipples.RemoveAt(i);
 		}
-	}
-
-	public override void onKeyDown(Key eventKey) {
-		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
-			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
-
-			pendingRipples.Add(
-				new Ripple(
-					lightKey.circle.centre
-				)
-			);
-			return ForEach.BREAK;
-		});
 	}
 }

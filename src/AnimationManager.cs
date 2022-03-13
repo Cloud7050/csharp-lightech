@@ -45,6 +45,7 @@ static class AnimationManager {
 			await awaitConnection();
 
 			long startTicks = DateTime.Now.Ticks;
+			KeyEventManager.onFire();
 			EffectManager.onFrame();
 			long endTicks = DateTime.Now.Ticks;
 
