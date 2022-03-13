@@ -1,0 +1,4 @@
+enum RippleType {
+	FADE,
+	BIG
+}

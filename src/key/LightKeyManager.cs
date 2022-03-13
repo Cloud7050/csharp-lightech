@@ -81,7 +81,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row1X += (ALT_SIZE / 2d) + (SPACE_SIZE / 2d),
 				row1Y
-			), Key.Space, GKey.SPACE),
+			), Key.Space, GKey.SPACE, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row1X += (SPACE_SIZE / 2d) + (ALT_SIZE / 2d),
 				row1Y
@@ -93,7 +93,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row1X += (WINDOWS_SIZE / 2d) + (APPS_SIZE / 2d),
 				row1Y
-			), Key.Apps, GKey.APPLICATION_SELECT),
+			), Key.Apps, GKey.APPLICATION_SELECT, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row1X += (APPS_SIZE / 2d) + (CONTROL_SIZE / 2d),
 				row1Y
@@ -209,7 +209,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row3X += (KEY_SIZE / 2d) + GAP_SIZE + (CAPSIZE / 2d),
 				row3Y
-			), Key.Escape, GKey.CAPS_LOCK),
+			), Key.Escape, GKey.CAPS_LOCK, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row3X += (CAPSIZE / 2d) + (KEY_SIZE / 2d),
 				row3Y
@@ -257,7 +257,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row3X += (KEY_SIZE / 2d) + (ENTER_SIZE / 2d),
 				row3Y
-			), Key.Enter, GKey.ENTER),
+			), Key.Enter, GKey.ENTER, RippleType.BIG),
 
 			new LightKey(new ImmutablePoint(
 				row3X += (ENTER_SIZE / 2d) + (GAP_SIZE * 2) + (KEY_SIZE * 3.5),
@@ -290,7 +290,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row4X += (KEY_SIZE / 2d) + GAP_SIZE + (TAB_SIZE / 2d),
 				row4Y
-			), Key.Tab, GKey.TAB),
+			), Key.Tab, GKey.TAB, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row4X += (TAB_SIZE / 2d) + (KEY_SIZE / 2d),
 				row4Y
@@ -351,11 +351,11 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.End, GKey.END),
+			), Key.End, GKey.END, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE,
 				row4Y
-			), Key.PageDown, GKey.PAGE_DOWN),
+			), Key.PageDown, GKey.PAGE_DOWN, RippleType.BIG),
 
 			new LightKey(new ImmutablePoint(
 				row4X += KEY_SIZE + GAP_SIZE,
@@ -437,20 +437,20 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row5X += (KEY_SIZE * 1.5) + GAP_SIZE,
 				row5Y
-			), Key.Insert, GKey.INSERT),
+			), Key.Insert, GKey.INSERT, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.Home, GKey.HOME),
+			), Key.Home, GKey.HOME, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
-			), Key.PageUp, GKey.PAGE_UP),
+			), Key.PageUp, GKey.PAGE_UP, RippleType.BIG),
 
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE + GAP_SIZE,
 				row5Y
-			), Key.NumLock, GKey.NUM_LOCK),
+			), Key.NumLock, GKey.NUM_LOCK, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row5X += KEY_SIZE,
 				row5Y
@@ -469,7 +469,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row6X += (KEY_SIZE * 1.5) + GAP_SIZE,
 				row6Y
-			), Key.CapsLock, GKey.ESC),
+			), Key.CapsLock, GKey.ESC, RippleType.BIG),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + FUNCTION_GAP_SIZE,
@@ -525,15 +525,15 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + GAP_SIZE,
 				row6Y
-			), Key.PrintScreen, GKey.PRINT_SCREEN),
+			), Key.PrintScreen, GKey.PRINT_SCREEN, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.Scroll, GKey.SCROLL_LOCK),
+			), Key.Scroll, GKey.SCROLL_LOCK, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE,
 				row6Y
-			), Key.Pause, GKey.PAUSE_BREAK),
+			), Key.Pause, GKey.PAUSE_BREAK, RippleType.BIG),
 
 			new LightKey(new ImmutablePoint(
 				row6X += KEY_SIZE + GAP_SIZE,
@@ -562,11 +562,11 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row7X += (KEY_SIZE * 20.5) + (GAP_SIZE * 3),
 				row7Y + (KEY_SIZE / 2d)
-			), Key.VolumeUp, null),
+			), Key.VolumeUp, null, RippleType.BIG),
 			new LightKey(new ImmutablePoint(
 				row7X,
 				row7Y + (KEY_SIZE / 2d)
-			), Key.VolumeDown, null)
+			), Key.VolumeDown, null, RippleType.BIG)
 		};
 
 		LIGHT_KEYS = ROW_1

@@ -14,10 +14,20 @@ class LightKey {
 	public readonly Key? eventKey;
 	public readonly GKey? gKey;
 
+	public readonly RippleType rippleType;
+
+	public LightKey(
+		ImmutablePoint centre,
+		Key? eventKey,
+		GKey? gKey,
+		double radius
+	): this(centre, eventKey, gKey, RippleType.BIG, radius) {}
+
 	public LightKey(
 		ImmutablePoint centre,
 		Key? _eventKey,
 		GKey? _gKey,
+		RippleType _rippleType = RippleType.FADE,
 		double radius = 0.25
 	) {
 		circle = new Circle(
@@ -27,6 +37,7 @@ class LightKey {
 
 		eventKey = _eventKey;
 		gKey = _gKey;
+		rippleType = _rippleType;
 	}
 
 	public void overwriteCurrentColour(Colour colour) {

@@ -9,9 +9,19 @@ class EffectRipple : Effect {
 		LightKeyManager.forEachWithEventKey((LightKey lightKey) => {
 			if (eventKey != lightKey.eventKey) return ForEach.CONTINUE;
 
-			ripples.Add(
-				new BigRipple(lightKey)
-			);
+			switch (lightKey.rippleType) {
+				case RippleType.FADE:
+					ripples.Add(
+						new FadeRipple(lightKey)
+					);
+					break;
+				case RippleType.BIG:
+					ripples.Add(
+						new BigRipple(lightKey)
+					);
+					break;
+			}
+
 			return ForEach.BREAK;
 		});
 	}
