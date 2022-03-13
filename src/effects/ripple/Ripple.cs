@@ -1,7 +1,7 @@
 class Ripple {
-	private const double FADE_DISTANCE = 1.5;
+	private const double FADE_DISTANCE = LightKeyManager.KEY_SIZE * 1.5;
 
-	private const double SECONDS_TO_TRAVEL_WIDTH = 2;
+	private const double SECONDS_TO_TRAVEL_WIDTH = 1.5;
 
 	private Circle ring;
 
