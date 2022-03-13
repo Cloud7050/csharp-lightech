@@ -13,14 +13,10 @@ static class EffectManager {
 	}
 
 	public static void onKeyDown(Key eventKey) {
-		if (!AnimationManager.isConnected()) return;
-
 		foreach (Effect effect in EFFECTS) effect.onKeyDown(eventKey);
 	}
 
 	public static void onKeyUp(Key eventKey) {
-		if (!AnimationManager.isConnected()) return;
-
 		foreach (Effect effect in EFFECTS) effect.onKeyUp(eventKey);
 	}
 

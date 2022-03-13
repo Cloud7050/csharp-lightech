@@ -4,8 +4,6 @@ static class AnimationManager {
 
 	private static readonly TimeSpan CONNECTION_INTERVAL = TimeSpan.FromSeconds(15);
 
-	private static bool _isConnected = false;
-
 	public const double TARGET_FPS = 60;
 
 	private static async Task awaitConnection() {
@@ -17,30 +15,20 @@ static class AnimationManager {
 			success = G.dummyCommand();
 
 			if (success) {
-				Console.WriteLine(">>> Connected ✅");
-				_isConnected = true;
+				Console.WriteLine(">>> Connected");
 
 				EffectManager.onWake();
-
 				return;
 			};
 
-			Console.WriteLine(">>> Connection Failed ⚠️");
-			_isConnected = false;
+			Console.WriteLine(">>> Connection Failed");
 			await Waiter.wait(CONNECTION_INTERVAL);
 		}
 	}
 
-	public static bool isConnected() {
-		return _isConnected;
-	}
-
-	public static async Task onInitialise() {
-		await awaitConnection();
-	}
-
 	public static async Task onAnimate() {
-		// Loop frames
+		KeyEventManager.onInitialise();
+
 		while (true) {
 			await awaitConnection();
 
