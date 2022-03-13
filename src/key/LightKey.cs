@@ -4,8 +4,10 @@ using LedCSharp;
 
 
 class LightKey {
-	private Colour? currentColour = null;
+	private const int MAX_SEND_SKIPS = (int) (AnimationManager.TARGET_FPS / 2d);
+	private Colour currentColour = Colour.BLACK;
 	private Colour? upcomingColour = null;
+	private int skippedSends = 0;
 
 	public readonly Circle circle;
 
@@ -41,11 +43,29 @@ class LightKey {
 	}
 
 	public void maySendColour() {
-		if (gKey == null || upcomingColour == null) return;
+		if (gKey == null) return;
 
-		if (!Colour.equal(currentColour, upcomingColour)) {
+		if (
+			upcomingColour != null
+			&& !Colour.equal(currentColour, upcomingColour)
+		) {
+			skippedSends = 0;
+
 			G.colour((GKey) gKey, upcomingColour);
 			overwriteCurrentColour(upcomingColour);
+		} else {
+			// There was no upcoming colour,
+			// or the current colour is already what we want shown.
+			// By definition, the current colour should already be showing
+
+			if (skippedSends <= MAX_SEND_SKIPS) skippedSends++;
+			else {
+				skippedSends = 0;
+
+				// If the SDK is overwhelmed, some updates don't happen.
+				// This periodic sending prevents stuck colours
+				G.colour((GKey) gKey, currentColour);
+			}
 		}
 
 		upcomingColour = null;
