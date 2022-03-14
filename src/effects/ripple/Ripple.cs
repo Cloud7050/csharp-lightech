@@ -5,23 +5,22 @@ using H.Hooks;
 abstract class Ripple {
 	protected bool isStillDown = true;
 
+	protected double alphaMultiplier = 1;
+
 	protected LightKey lightKey;
 
 	protected Circle ring;
 	protected Colour colour;
 
 	protected double fadeDistance;
-	protected double alphaMultiplier;
 
 	public Ripple(
 		LightKey _lightKey,
-		double _fadeDistance,
-		double _alphaMultiplier = 1
+		double _fadeDistance
 	) {
 		lightKey = _lightKey;
 		ring = new Circle(_lightKey.circle.centre);
 		fadeDistance = _fadeDistance;
-		alphaMultiplier = _alphaMultiplier;
 
 		colour = ColourStream.nextColour();
 	}
