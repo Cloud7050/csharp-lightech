@@ -34,19 +34,12 @@ class Colour {
 		alpha = _alpha;
 	}
 
-	private static int round(double number) {
-		return (int) Math.Round(
-			number,
-			MidpointRounding.AwayFromZero
-		);
-	}
-
 	private static double toInterval(int component) {
 		return ((double) component) / MAX;
 	}
 
 	private static int fromInterval(double interval) {
-		return round(interval * MAX);
+		return MathUtilities.round(interval * MAX);
 	}
 
 	private static double toPercentageDouble(int component) {
@@ -56,7 +49,7 @@ class Colour {
 
 	private static int toPercentage(int component) {
 		double componentPercentage = toPercentageDouble(component);
-		return round(componentPercentage);
+		return MathUtilities.round(componentPercentage);
 	}
 
 	private static int alphaCompositeComponent(
@@ -66,7 +59,7 @@ class Colour {
 		double backAlphaInterval,
 		double finalAlphaInterval
 	) {
-		return round(
+		return MathUtilities.round(
 			(
 				(frontComponent * frontAlphaInterval) + (
 					backComponent * backAlphaInterval * (1 - frontAlphaInterval)
@@ -87,7 +80,7 @@ class Colour {
 	private int toPercentageDimmed(int component) {
 		double componentPercentage = toPercentageDouble(component);
 		double alphaInterval = getAlphaInterval();
-		return round(componentPercentage * alphaInterval);
+		return MathUtilities.round(componentPercentage * alphaInterval);
 	}
 
 	public Colour clone() {
