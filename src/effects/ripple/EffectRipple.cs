@@ -59,8 +59,7 @@ class EffectRipple : Effect {
 		for (int i = ripples.Count - 1; i >= 0; i--) {
 			Ripple ripple = ripples[i];
 
-			ripple.onFrameEnd();
-			if (ripple.onCheckRemove()) ripples.RemoveAt(i);
+			if (ripple.onFrameEnd()) ripples.RemoveAt(i);
 		}
 	}
 }

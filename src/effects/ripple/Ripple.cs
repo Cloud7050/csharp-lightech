@@ -10,11 +10,32 @@ abstract class Ripple {
 	protected Circle ring;
 	protected Colour colour;
 
-	public Ripple(LightKey _lightKey) {
+	protected double fadeDistance;
+	protected double alphaMultiplier;
+
+	public Ripple(
+		LightKey _lightKey,
+		double _fadeDistance,
+		double _alphaMultiplier = 1
+	) {
 		lightKey = _lightKey;
 		ring = new Circle(_lightKey.circle.centre);
+		fadeDistance = _fadeDistance;
+		alphaMultiplier = _alphaMultiplier;
 
 		colour = ColourStream.nextColour();
+	}
+
+	private double alphaIntervalFor(Circle lightCircle) {
+		double ringToLightCentre = ring.circumferenceDistanceTo(lightCircle.centre);
+		double lengthOutsideLightCircle = ringToLightCentre - lightCircle.radius;
+
+		if (lengthOutsideLightCircle <= 0) return 1;
+
+		if (lengthOutsideLightCircle > fadeDistance) return 0;
+
+		double proximityToDimmestArc = fadeDistance - lengthOutsideLightCircle;
+		return proximityToDimmestArc / fadeDistance;
 	}
 
 	public bool isForEventKey(Key eventKey) {
@@ -22,23 +43,25 @@ abstract class Ripple {
 	}
 
 	public void onThisKeyUp() {
-		if (isStillDown) {
-			onNoLongerDown();
-			return;
-		}
+		if(!isStillDown) return;
 
 		isStillDown = false;
+		onNoLongerDown();
+	}
+
+	public Colour onGetColour(LightKey lightKey) {
+		Colour newColour = colour.clone();
+		newColour.setAlphaInterval(
+			alphaIntervalFor(lightKey.circle) * alphaMultiplier
+		);
+		return newColour;
 	}
 
 	public virtual void onNoLongerDown() {}
 
 	public virtual void onFrameStart() {}
 
-	public abstract Colour onGetColour(LightKey lightKey);
-
-	public virtual void onFrameEnd() {}
-
-	public virtual bool onCheckRemove() {
+	public virtual bool onFrameEnd() {
 		return false;
 	}
 }
