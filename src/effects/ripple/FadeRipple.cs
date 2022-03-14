@@ -1,64 +1,49 @@
 class FadeRipple : Ripple {
-	private const double SLOWEST_SECONDS = 1;
-	private const double UP_MULTIPLIER = 2;
-	private const double EXPONENT = 2.5;
+	private const double RADIUS_START = LightKeyManager.KEY_SIZE;
+	private const double RADIUS_END = LightKeyManager.KEY_SIZE * 3;
+	private const double RADIUS_MAX_FRAMES = AnimationManager.TARGET_FPS * 0.6;
+	private const double RADIUS_EXPONENT = 5;
 
-	private const double FADE_THRESHOLD = 0.5;
-	private const double FADE_DISTANCE_START = LightKeyManager.KEY_SIZE;
-	private const double FADE_DISTANCE_END = LightKeyManager.KEY_SIZE * 2;
+	private const double FADE_START = 1;
+	private const double FADE_END = 2;
+	private const double FADE_FRAMES = AnimationManager.TARGET_FPS * 0.4;
+	private const double FADE_EXPONENT = 4;
 
-	private const double SPEED_START = (LightKeyManager.KEY_SIZE * 30) / AnimationManager.TARGET_FPS;
+	private double radiusFrames = 0;
+	private double fadeFrames = 0;
 
-	private double linearFactor = 1;
+	public FadeRipple(LightKey lightKey) : base(lightKey, FADE_START) {}
 
-	public FadeRipple(LightKey lightKey) : base(lightKey, FADE_DISTANCE_START) {}
+	private void mayExpandRadius() {
+		if (radiusFrames >= RADIUS_MAX_FRAMES) return;
 
-	private void addLinearFactor() {
-		double thisFrameReduction = (1 / SLOWEST_SECONDS) / AnimationManager.TARGET_FPS;
-		if (!isStillDown) thisFrameReduction *= UP_MULTIPLIER;
+		double frameProgress = radiusFrames / RADIUS_MAX_FRAMES;
+		// Decreasing deceleration
+		double exponential = Math.Pow(1 - frameProgress, RADIUS_EXPONENT);
+		// Starting at 1 (second value) to 0 (first value)
+		ring.radius = MathUtilities.lerp(RADIUS_END, RADIUS_START, exponential);
 
-		linearFactor -= thisFrameReduction;
+		radiusFrames++;
 	}
 
-	private double getProgressFactor() {
-		double exponentialFactor = Math.Pow(linearFactor, EXPONENT);
-		return Math.Clamp(exponentialFactor, 0, 1);
-	}
+	private void increaseFade() {
+		double frameProgress = fadeFrames / FADE_FRAMES;
+		// Decreasing deceleration
+		double exponential = Math.Pow(1 - frameProgress, FADE_EXPONENT);
 
-	private double getFadeFactor(double progressFactor) {
-		return progressFactor > FADE_THRESHOLD
-			? 1
-			: Math.Clamp(
-				progressFactor / FADE_THRESHOLD,
-				0,
-				1
-			);
-	}
+		// Starting at 1 (second value) to 0 (first value)
+		fadeDistance = MathUtilities.lerp(FADE_END, FADE_START, exponential);
 
-	private double lerp(double start, double end, double factor) {
-		double difference = end - start;
-		return start + (difference * factor);
+		alphaMultiplier = exponential;
+
+		fadeFrames++;
 	}
 
 	public override bool onFrameEnd() {
-		addLinearFactor();
-		if (linearFactor < 0) return true;
+		mayExpandRadius();
 
-		Console.WriteLine("");
-		Console.WriteLine("LF "+linearFactor);
-		double progressFactor = getProgressFactor();
-		Console.WriteLine("SF "+progressFactor);
+		if (!isStillDown) increaseFade();
 
-		// Expand radius
-		double currentSpeed = SPEED_START * progressFactor;
-		ring.radius += currentSpeed;
-
-		// Update fade & alpha
-		double fadeFactor = getFadeFactor(progressFactor);
-		Console.WriteLine("FF "+fadeFactor);
-		fadeDistance = lerp(FADE_DISTANCE_END, FADE_DISTANCE_START, fadeFactor);
-		alphaMultiplier = fadeFactor;
-
-		return false;
+		return fadeFrames >= FADE_FRAMES;
 	}
 }
