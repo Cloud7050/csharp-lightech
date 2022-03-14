@@ -22,15 +22,13 @@ sealed class ImmutableKeyEvent {
 		data = _data;
 	}
 
-	private static bool testIgnore(Key eventKey) {
-		bool ignore = IGNORED_KEYS.Contains(eventKey);
-		if (ignore) Console.WriteLine($">>> Ignore: {eventKey}");
-		return ignore;
+	private static bool shouldIgnore(Key eventKey) {
+		return IGNORED_KEYS.Contains(eventKey);
 	}
 
 	private void down() {
 		foreach (Key eventKey in data.Keys.Values) {
-			if (testIgnore(eventKey)) {
+			if (shouldIgnore(eventKey)) {
 				Console.WriteLine($">>> DOWN ignore: {eventKey}");
 				continue;
 			}
@@ -48,7 +46,7 @@ sealed class ImmutableKeyEvent {
 
 	private void up() {
 		foreach (Key eventKey in data.Keys.Values) {
-			if (testIgnore(eventKey)) {
+			if (shouldIgnore(eventKey)) {
 				Console.WriteLine($">>> UP ignore: {eventKey}");
 				continue;
 			}
