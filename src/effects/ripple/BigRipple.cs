@@ -1,7 +1,7 @@
 class BigRipple : Ripple {
-	private const double SECONDS_TO_TRAVEL_WIDTH = 1;
+	private const double SECONDS_TO_TRAVEL_WIDTH = 1.25;
 
-	private const double FADE_DISTANCE = LightKeyManager.KEY_SIZE * 1.5;
+	private const double FADE_DISTANCE = LightKeyManager.KEY_SIZE * 1.25;
 
 	public BigRipple(LightKey lightKey) : base(lightKey, FADE_DISTANCE) {}
 
