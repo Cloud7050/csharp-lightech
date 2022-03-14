@@ -81,7 +81,7 @@ static class LightKeyManager {
 			new LightKey(new ImmutablePoint(
 				row1X += (ALT_SIZE / 2d) + (SPACE_SIZE / 2d),
 				row1Y
-			), Key.Space, GKey.SPACE, RippleType.BIG),
+			), Key.Space, GKey.SPACE),
 			new LightKey(new ImmutablePoint(
 				row1X += (SPACE_SIZE / 2d) + (ALT_SIZE / 2d),
 				row1Y
