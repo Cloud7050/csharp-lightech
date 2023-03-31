@@ -23,20 +23,6 @@ static class G {
 		);
 	}
 
-	public static bool colourGlobally(
-		Colour colour
-	) {
-		bool success = SDK.LogiLedSetLighting(
-			colour.getPercentageDimmedRed(),
-			colour.getPercentageDimmedGreen(),
-			colour.getPercentageDimmedBlue()
-		);
-
-		if (success) LightKeyManager.notifyGlobalColour(colour);
-
-		return success;
-	}
-
 	public static bool colour(
 		GKey keyName,
 		Colour colour

@@ -4,7 +4,6 @@ using H.Hooks;
 
 static class EffectManager {
 	private static readonly Effect[] EFFECTS = new Effect[] {
-		new EffectGlobalWipe(),
 		new EffectRipple(),
 	};
 
